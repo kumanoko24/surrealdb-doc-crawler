@@ -1,0 +1,90 @@
+---
+title: EXPLAIN statement
+url: https://surrealdb.com/docs/surrealql/statements/explain
+crawled_at: 2026-03-25 18:41:12
+---
+
+# EXPLAIN statement
+
+
+###### Note
+
+
+The output for the `EXPLAIN` statement is for informational purposes and subject to change. Be sure not to develop tools around it that rely on a single predictible output.
+
+The `EXPLAIN` statement is used to display the query planner for a statement.
+
+### Statement syntax
+
+SurrealQL SyntaxRailroad Diagram
+SurrealQL Syntax
+
+```
+EXPLAIN [ ANALYZE ] [ FORMAT TEXT | JSON ] @statement
+```
+EXPLAINANALYZEFORMATTEXTJSON@statement
+## Example usage
+
+
+An `EXPLAIN` statement is one that can be appended to another statement that does not modify database resources, i.e. a `SELECT` statement or another statement that returns a value.
+
+The two main decisions to make when using an `EXPLAIN` statement are:
+
+- Use default text format or add FORMAT JSON to output the format in JSON?
+- Add the ANALYZE clause after EXPLAIN
+
+The following example shows the four possible types of output when followed by a simple string.
+
+```
+EXPLAIN "yourself!";EXPLAIN ANALYZE "yourself!";EXPLAIN FORMAT JSON "yourself!";EXPLAIN ANALYZE FORMAT JSON "yourself!";
+```
+
+As the output shows, the `ANALYZE` clause adds information on the metrics and total rows.
+
+Output
+
+```
+-------- Query --------"Expr [ctx: Rt] [expr: 'yourself!']"-------- Query --------"Expr [ctx: Rt] [expr: 'yourself!'] {rows: 0, batches: 0, elapsed: 0ns}Total rows: 1"-------- Query --------{	attributes: {		expr: "'yourself!'"	},	context: 'Rt',	expressions: [		{			role: 'expr',			sql: "'yourself!'"		}	],	operator: 'Expr'}-------- Query --------{	attributes: {		expr: "'yourself!'"	},	context: 'Rt',	expressions: [		{			role: 'expr',			sql: "'yourself!'"		}	],	metrics: {		elapsed_ns: 0,		output_batches: 0,		output_rows: 0	},	operator: 'Expr',	total_rows: 1}
+```
+
+### Context
+
+
+The `context` field in an `EXPLAIN` statement refers to the minimum context level for an operation: `Rt` (root), `Ns` (namespace), or `Db` (database) level.
+
+### Operator types
+
+
+The `operator` field in the output of an `EXPLAIN` statement is the most relevant area to take note of. Here is a list of many of the operator types you will see in the statement output.
+
+```
+AggregateComputeCountScanExplainExplainAnalyzeExprFetchFilterForeachFullTextScanGraphEdgeScanIfElseIndexCountScanIndexScanLetLimitProjectValueProjectSelectProjectReferenceScanReturnScanSequenceSleepSourceExprSplitUnionUnwrapExactlyOneInfoDatabaseInfoIndexInfoNamespaceInfoRootInfoTableInfoUserExternalSortSortSortByKeyRandomShuffleSortTopKSortTopKByKey
+```
+
+This allows you to get an insight into exactly what sort of work is being performed by the database when a query is executed.
+
+For example, take the following simple example in which one `person` record has a single friend. The final two queries return the same result, but one is a `SELECT...FROM ONLY` query while the other is a direct destructuring of the link from its record id.
+
+```
+CREATE person:one, person:two;RELATE person:one->friend->person:two;EXPLAIN SELECT ->friend->person AS friends FROM ONLY person:one;EXPLAIN person:one.{ friends: ->friend->person };
+```
+
+Not only is the second query faster, but we can see why as the first query is doing more work with four operations instead of one.
+
+Output
+
+```
+-------- Query 1 (143us) --------'UnwrapExactlyOne [ctx: Db]    Project [ctx: Db]          field.lookup: GraphEdgeScan [ctx: Db] [direction: ->, tables: person, output: TargetId]                    GraphEdgeScan [ctx: Db] [direction: ->, tables: friend, output: TargetId]                                  CurrentValueSource [ctx: Rt]                                          RecordIdScan [ctx: Db] [record_id: person:one]'-------- Query 2 (44us) --------'Expr [ctx: Db] [expr: (person:one).{ friends: ->friend->person }]'
+```
+
+Here is an example of output for a query of a complexity more similar to those seen in production applications.
+
+```
+EXPLAIN ANALYZE SELECT  id as commentId,  in.id as id,  in.creationDate as creationDateFROM is_comment_ofWHERE out = media_text_test:0 AND in.creationDate < d'2026-01-09T00:00:00.000Z'ORDER BY in.creationDate DESCLIMIT 2;
+```
+
+Output
+
+```
+"Project [ctx: Db] {rows: 0, batches: 0, elapsed: 1.71µs}    Limit [ctx: Db] [limit: 2] {rows: 0, batches: 0, elapsed: 13.92µs}            SortTopKByKey [ctx: Db] [sort_keys: in.creationDate DESC, limit: 2] {rows: 0, batches: 0, elapsed: 7.50µs}                        TableScan [ctx: Db] [table: is_comment_of, direction: Forward, predicate: out = media_text_test:0 AND in.creationDate < d'2026-01-09T00:00:00Z'] {rows: 0, batches: 0, elapsed: 361.42µs}                                                Total rows: 0"
+```

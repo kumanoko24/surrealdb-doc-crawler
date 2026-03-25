@@ -1,0 +1,538 @@
+---
+title: Set functions
+url: https://surrealdb.com/docs/surrealql/functions/database/set
+crawled_at: 2026-03-25 18:43:27
+---
+
+# Set functions
+
+
+These functions can be used when working with, and manipulating sets of data.
+
+| Function | Description |
+| --- | --- |
+| set::add() | Adds an item to a set if it does not exist |
+| set::all() | Checks if all elements in a set match a condition |
+| set::any() | Checks if any elements in a set match a condition |
+| set::at() | Accesses the element at a specific position in a set |
+| set::complement() | Returns the complement of two sets |
+| set::contains() | Checks to see if a value is present in a set |
+| set::difference() | Returns the difference between two sets |
+| set::filter() | Filters elements in a set that match a condition |
+| set::find() | Finds the first element in a set that matches a condition |
+| set::find() | Gets the first element in a set |
+| set::flatten() | Flattens nested sets and arrays into a single set |
+| set::fold() | Folds over a set with an accumulator |
+| set::intersect() | Returns the values which intersect two sets |
+| set::is_empty() | Checks if a set is empty |
+| set::join() | Joins set elements into a string with a separator |
+| set::last() | Gets the last element in a set |
+| set::len() | Returns the length of a set |
+| set::map() | Maps over the elements of a set to return a new set |
+| set::max() | Returns the greatest value from a set |
+| set::min() | Returns the least value from a set |
+| set::reduce() | Reduces a set via a closure |
+| set::remove() | Removes an item at a specific position from a set |
+| set::slice() | Removes an item at a specific position from a set |
+| set::union() | Returns the unique merged values from two sets |
+
+
+## set::add
+
+
+The `set::add` function adds an item to a set only if it does not already exist.
+
+API DEFINITION
+
+```
+set::add(set, $new_val: value) -> set
+```
+
+The following example shows this function, and its output, when used in a RETURN statement:
+
+```
+RETURN set::add({"one", "two"}, "three");-- {'one', 'three', 'two'}
+```
+
+A set can also be extended with the contents of an array or another set.
+
+```
+RETURN {1, 2}.add([2, 3, 4]);-- {1, 2, 3, 4}RETURN {1, 2, 3}.add({3, 4, 5});-- {1, 2, 3, 4, 5}
+```
+
+## set::all
+
+
+When called on a set without any extra arguments, the `set::all` function checks whether all set values are truthy.
+
+API DEFINITION
+
+```
+set::all(set) -> boolset::all(set, $predicate: value) -> boolset::all(set, $predicate: closure) -> bool
+```
+
+The following example shows this function, and its output, when used in a RETURN statement:
+
+```
+RETURN set::all({ 1, 2, 3, NONE, 'SurrealDB', 5 });-- falseRETURN {'all', 'clear'}.all();-- true
+```
+
+The `set::all` function can also be followed with a value or a closure to check whether all elements conform to a condition.
+
+```
+RETURN {'same',}.all('same');-- trueRETURN {"What's", 'it', 'got', 'in', 'its', 'pocketses??'}.all(|$s| $s.len() > 1);-- trueRETURN {1, 2, 'SurrealDB'}.all(|$var| $var.is_string());-- false
+```
+
+## set::any
+
+
+The `set::any` function checks whether any set values are truthy.
+
+API DEFINITION
+
+```
+set::any(set) -> boolset::any(set, $predicate: value) -> boolset::any(set, $predicate: closure) -> bool
+```
+
+When called on a set without any extra arguments, the `set::any` function checks whether any set values are truthy.
+
+```
+RETURN set::any({ 1, 2, 3, NONE, 'SurrealDB', 5 });-- trueRETURN {'', 0, NONE, NULL, [], {}}.any();-- false
+```
+
+The `set::any` function can also be followed with a value or a closure to check whether any elements conform to a condition.
+
+```
+RETURN {'same', 'different'}.any('same');-- trueRETURN {'ant', 'bear', 'cat'}.any(|$s| $s.len() > 3);-- trueRETURN {1, 2, 3}.any(|$num| $num > 10);-- false
+```
+
+## set::at
+
+
+The `set::at` function returns the value at the specified only, or in reverse for a negative index.
+
+Because sets are ordered, the position of the item is based on the set's sorted order.
+
+API DEFINITION
+
+```
+set::at(set, $index: int) -> any
+```
+
+The following example shows this function, and its output, when used in a RETURN statement:
+
+```
+RETURN set::at({3, 1, 2}, 1);-- 2
+```
+
+You can also pass in a negative index.
+
+```
+RETURN {1, 2, 3}.at(-1);-- 3RETURN {1, 2, 3}.at(-4);-- NONE
+```
+
+## set::complement
+
+
+The `set::complement` function returns the complement of two sets, namely a single set containing items that are in the first set but not in the second set.
+
+API DEFINITION
+
+```
+set::complement(set, $other: set) -> set
+```
+
+Example with output
+
+```
+{1, 2, 3, 4}.complement({3, 4, 5, 6});-- {1, 2}
+```
+
+## set::contains
+
+
+The `set::contains` function checks to see if a value is contained within a set.
+
+API DEFINITION
+
+```
+set::contains(set, $other: value) -> bool
+```
+
+Example with output
+
+```
+{1, 2, 3}.contains(3);-- true
+```
+
+## set::difference
+
+
+The `set::difference` function determines the symmetric difference between two sets, returning a single set containing items that are not shared between them.
+
+API DEFINITION
+
+```
+set::difference(set, $other: set) -> set
+```
+
+Example with output
+
+```
+{1, 2, 3, 4}.difference({3, 4, 5, 6});-- {1, 2, 5, 6}
+```
+
+## set::filter
+
+
+The `set::filter` function filters out values that do not match a pattern.
+
+API DEFINITION
+
+```
+set::filter(set, $predicate: value) -> setset::filter(set, $predicate: closure) -> set
+```
+
+The following example shows a simple use of `set::filter()` with a closure.
+
+```
+{1, 2, 3, NONE, 0, '', [], {}}.filter(|$v| $v.is_int());-- {0, 1, 2, 3}
+```
+
+You can also pass a value to keep only exact matches.
+
+```
+{'a', 'b', 'c'}.filter('a');-- {'a',}
+```
+
+## set::find
+
+
+The `set::find` function returns the first matching value from a set.
+
+Because sets are ordered, the first matching value is the first match in the set's sorted order.
+
+API DEFINITION
+
+```
+set::find(set, $predicate: value) -> value | NONEset::find(set, $predicate: closure) -> value | NONE
+```
+
+The following example shows this function, and its output, when used in a RETURN statement:
+
+```
+RETURN set::find({'a', 'b', 'c'}, 'b');-- 'b'RETURN {1, 2, 3}.find(4);-- NONE
+```
+
+The `set::find` function is most useful when a closure is passed in, which allows for customized searching.
+
+```
+{1, 2, 5}.find(|$num| $num >= 3);-- 5{	{ strength: 15, intelligence: 6, name: 'Dom the Magnificent' },	{ strength: 10, intelligence: 15, name: 'Mardine' },	{ strength: 20, intelligence: 3, name: 'Gub gub' },	{ strength: 10, intelligence: 18, name: 'Lumin695' }}.find(|$c| $c.strength > 9 AND $c.intelligence > 9);-- { intelligence: 15, name: 'Mardine', strength: 10 }
+```
+
+## set::first
+
+
+The `set::first` function returns the first value from a set.
+
+Because sets are ordered, this returns the least value in the set's sorted order.
+
+API DEFINITION
+
+```
+set::first(set) -> any
+```
+
+The following example shows this function, and its output, when used in a RETURN statement:
+
+```
+RETURN set::first({ 3, 1, 2 });-- 1
+```
+
+## set::flatten
+
+
+The `set::flatten` function flattens nested sets and arrays into a single set.
+
+API DEFINITION
+
+```
+set::flatten(set) -> set
+```
+
+Note that this function will remove a single layer of nesting, and may need to be called more than once if you have a set with another set or array inside it.
+
+```
+-- Flattens everything except the array contained inside an inner set({ {1, 2}, [3, 4], 'SurrealDB', {5, 6, [7, 8]} }).flatten();-- Call twice: flattens everything including the nested array({ {1, 2}, [3, 4], 'SurrealDB', {5, 6, [7, 8]} }).flatten().flatten();
+```
+
+Output
+
+```
+-- Flattened once{1, 2, 3, 4, 5, 6, 'SurrealDB', [	7,	8]}-- Flattened twice{1, 2, 3, 4, 5, 6, 7, 8, 'SurrealDB'}
+```
+
+## set::fold
+
+
+The `set::fold` function applies an operation on an initial value and every element in the set, returning the final result.
+
+API DEFINITION
+
+```
+set::fold(set, $initial: value, $operator: closure) -> value
+```
+
+This function is commonly used to sum or otherwise accumulate values from a set.
+
+```
+{1, 2, 3, 4}.fold(0, |$acc, $val| $acc + $val);-- 10
+```
+
+Because `set::fold()` takes an explicit initial value, it is useful when the result type should differ from the type of the set values.
+
+```
+{1, 2, 3}.fold('', |$acc, $val| $acc + <string>$val);-- '123'
+```
+
+## set::intersect
+
+
+The `set::intersect` function calculates the values which intersect two sets, returning a single set containing the values which are in both sets.
+
+API DEFINITION
+
+```
+set::intersect(set, $other: set) -> set
+```
+
+Example with output
+
+```
+{1, 2, 3, 4}.intersect({3, 4, 5, 6});-- {3, 4}
+```
+
+## set::is_empty
+
+
+The `set::is_empty` function checks whether the set is empty or not.
+
+API DEFINITION
+
+```
+set::is_empty(set) -> bool
+```
+
+Example with output
+
+```
+{1, 2, 3, 4}.is_empty();-- false
+```
+
+## set::join
+
+
+The `set::join` function joins all values in a set together into a string, with a string separator in between each value.
+
+Because sets are ordered, the joined string follows the set's sorted order.
+
+API DEFINITION
+
+```
+set::join(set, $separator: string) -> string
+```
+
+```
+RETURN set::join({3, 1, 2}, ' + ');-- '1 + 2 + 3'
+```
+
+## set::last
+
+
+The `set::last` function returns the last value from a set.
+
+Because sets are ordered, this returns the greatest value in the set's sorted order.
+
+API DEFINITION
+
+```
+set::last(set) -> any
+```
+
+The following example shows this function, and its output, when used in a RETURN statement:
+
+```
+RETURN set::last({ 3, 1, 2 });-- 3
+```
+
+## set::len
+
+
+The `set::len` function calculates the length of a set, returning a number. This function counts unique items only.
+
+If you want to only count truthy values, then use the count() function.
+
+API DEFINITION
+
+```
+set::len(set) -> number
+```
+
+Example with output
+
+```
+{1, 2, 1, null, 'something', 3, 3, 4, 0}.len();-- 7
+```
+
+## set::map
+
+
+The `set::map` function allows the user to call an anonymous function (closure) that is performed on every item in the set before passing it on.
+
+Because the result is also a set, duplicate mapped values are removed.
+
+API DEFINITION
+
+```
+set::map(set, $operator: closure) -> set
+```
+
+The most basic use of `set::map` involves choosing a parameter name for each item in the set and a desired output.
+
+```
+{1, 2, 3}.map(|$v| $v * 2);-- {2, 4, 6}
+```
+
+An example of mapping several values to the same result.
+
+```
+{1, 2, 3}.map(|$val| $val % 2 = 0);-- {false, true}
+```
+
+## set::max
+
+
+The `set::max` function returns the greatest value from a set of values.
+
+API DEFINITION
+
+```
+set::max(set) -> any
+```
+
+The following example shows this function, and its output, when used in a RETURN statement:
+
+```
+RETURN set::max({0, 1, 2});-- 2
+```
+
+As any value can be compared with another value, the set can contain any SurrealQL value.
+
+## set::min
+
+
+The `set::min` function returns the least value from a set of values.
+
+API DEFINITION
+
+```
+set::min(set) -> any
+```
+
+The following example shows this function, and its output, when used in a RETURN statement:
+
+```
+RETURN set::min({0, 1, 2});-- 0
+```
+
+As any value can be compared with another value, the set can contain any SurrealQL value.
+
+## set::reduce
+
+
+The `set::reduce` function applies an operation on every element in the set, returning the final result.
+
+If you need an initial value to pass in before the other items are operated on, use the set::fold function instead.
+
+API DEFINITION
+
+```
+set::reduce(set, $operator: closure) -> value
+```
+
+This function is commonly used to sum or perform some other mathematical operation on the items in a set.
+
+```
+{1, 2, 3, 4}.reduce(|$one, $two| $one + $two);-- 10
+```
+
+Another example showing `set::reduce()` used to build a string:
+
+```
+{1, 2, 3, 4}.reduce(|$one, $two| <string>$one + <string>$two);-- '1234'
+```
+
+## set::remove
+
+
+The `set::remove` function removes a value from a set.
+
+API DEFINITION
+
+```
+set::remove(set, $remove: value) -> set
+```
+
+The following example removes the value `2` from a set.
+
+```
+{1, 2, 5}.remove(2);-- {1, 5}
+```
+
+If the value does not exist, the untouched set will be returned.
+
+```
+{1, 2, 5}.remove(3);-- {1, 2, 5}
+```
+
+You can also remove the contents of an array or another set.
+
+```
+RETURN {1, 2, 3, 4}.remove([2, 3]);-- {1, 4}RETURN {1, 2, 3, 4}.remove({2, 3, 4});-- {1,}
+```
+
+## set::slice
+
+
+The `set::slice` function returns a slice of a set by position.
+
+Because sets are ordered, slicing is based on the set's sorted order.
+
+API DEFINITION
+
+```
+set::slice(set) -> setset::slice(set, $start: int) -> setset::slice(set, $start: int, $end: int) -> setset::slice(set, $range: range<int>) -> set
+```
+
+The following example shows this function, and its output, when used in a RETURN statement:
+
+```
+RETURN set::slice({4, 1, 3, 2}, 1, 3);-- {2, 3}RETURN {1, 2, 3, 4, 5}.slice(-3..);-- {3, 4, 5}
+```
+
+## set::union
+
+
+The `set::union` function combines two sets together, removing duplicate values, and returning a single set.
+
+API DEFINITION
+
+```
+set::union(set, $other: set) -> set
+```
+
+Example with output
+
+```
+{1, 2, 6}.union({1, 3, 4, 5, 6});-- {1, 2, 3, 4, 5, 6}
+```

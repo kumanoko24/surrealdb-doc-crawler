@@ -1,0 +1,108 @@
+---
+title: Objects
+url: https://surrealdb.com/docs/surrealql/datamodel/objects
+crawled_at: 2026-03-25 18:40:35
+---
+
+# Objects
+
+
+An object is a collection of named fields and values.
+
+As a record is essentially an object with a required id field that can be created, updated, or deleted, they can be worked with in almost exactly the same way as a standalone object.
+
+A field of an object can be of any value type, including another object or array at multiple levels of depth. This allows objects and arrays to be stored within each other in order to model complex data scenarios.
+
+```
+CREATE person SET metadata = {	interest_level: 83.67,	information: {		age: 23,		gender: 'm',	},	marketing: true,	activities: [		"clicked link",		"contact form",		"read email",		"viewed website",		"viewed website",		"viewed website",		"read email",	]};
+```
+
+## Field names
+
+
+### Valid field names
+
+
+Similar to record IDs, field names can be constructed from ASCII characters, underscores, and numbers. To create a field name with complex characters, backticks can be used.
+
+```
+CREATE ONLY user SET my_name = 'name';CREATE ONLY user SET `mi_nómine😊` = 'name';
+```
+
+Output
+
+```
+-------- Query --------{	id: user:nronupvxvdm7r1n5hlzm,	my_name: 'name'}-------- Query 2 --------{	id: user:eb5pu7u9g67dy773hsv9,	"mi_nómine😊": 'name'}
+```
+
+Inside a standalone object, non-ASCII field names can also be set by using a string.
+
+```
+SELECT * FROM ONLY {    "mi nómine": "Edgar"};
+```
+
+Output
+
+```
+{	"mi nómine": 'Edgar'}
+```
+
+### Automatically generated field names
+
+
+A field created from an operation will have a field name that represents the operation(s) used to construct it.
+
+```
+SELECT    math::mean(temps),    [ math::min(temps), math::max(temps) ]FROM { temps: [-5, 8, 9] };
+```
+
+Output
+
+```
+[    {        "[math::min(temps), math::max(temps)]": [            -5,            9        ],        "math::mean": 4f    }]
+```
+
+Using `AS` allows these automatically calculated field names to be replaced with custom names.
+
+```
+SELECT    math::mean(temps) AS mean_temps,    [ math::min(temps), math::max(temps) ] AS avg_tempsFROM { temps: [-5, 8, 9] };
+```
+
+Output
+
+```
+[    {        "avg_temps": [            -5,            9        ],        "mean_temps": 4    }]
+```
+
+## Extending objects and removing fields
+
+
+Two objects can be merged by using either the `+` operator or the `object::extend()` function. Any fields in the second object will be added to the first object, thereby updating any existing fields and adding new fields to those that were not present.
+
+```
+{ name: "Venus", radius: 6000 } + { radius: 6051.8, orbital_period: 1y31w1d22h };{ name: "Venus", radius: 6000 }.extend({ radius: 6051.8, orbital_period: 1y31w1d22h });
+```
+
+Output
+
+```
+-------- Query 1 --------{	name: 'Venus',	orbital_period: 1y31w1d22h,	radius: 6051.8f}-------- Query 2 --------{	name: 'Venus',	orbital_period: 1y31w1d22h,	radius: 6051.8f}
+```
+
+Fields of an object can be removed with the `object::remove()` function, which takes either a single string or an array of strings of the field names to remove.
+
+```
+{ name: 'Venus', orbital_period: 1y31w1d22h, radius: 6051.8 }.remove("radius");{ name: 'Venus', orbital_period: 1y31w1d22h, radius: 6051.8 }.remove(["radius", "orbital_period"]);
+```
+
+Output
+
+```
+-------- Query 1 --------{	name: 'Venus',	orbital_period: 1y31w1d22h}-------- Query 2 --------{	name: 'Venus'}
+```
+
+## See also
+
+
+- Object functions
+- Destructuring nested objects

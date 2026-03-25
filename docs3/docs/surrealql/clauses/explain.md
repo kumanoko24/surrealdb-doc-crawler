@@ -1,0 +1,175 @@
+---
+title: EXPLAIN clause
+url: https://surrealdb.com/docs/surrealql/clauses/explain
+crawled_at: 2026-03-25 21:41:55
+---
+
+# EXPLAIN clause
+
+
+The `EXPLAIN` clause is used to explain the plan used for a query. It is particularly useful when you want to understand how a query is executed and how it is optimized by the database.
+
+When `EXPLAIN` is used, the statement returns an explanation, essentially revealing the execution plan to provide transparency and understanding of the query performance.
+
+## Syntax
+
+
+Clause Syntax
+
+```
+@query EXPLAIN [FULL]
+
+```
+
+Using the `EXPLAIN` clause in addition to the `FULL` keyword is expeciallly useful when you want to understand the performance of a query and can provide more details when debugging.
+
+## Examples
+
+
+For example, consider the performance of the following query when the field `email` is not indexed. We can see that the execution plan will iterate over the whole table.
+
+Index not used
+
+```
+CREATE person:tobie SET
+	name = "Tobie",
+	address = "1 Bagshot Row",
+	email = "tobie@surrealdb.com";
+
+SELECT * FROM person WHERE email='tobie@surrealdb.com' EXPLAIN;
+SELECT * FROM person WHERE email='tobie@surrealdb.com' EXPLAIN FULL;
+
+```
+
+Output
+
+```
+-------- Query --------
+
+{
+	attributes: {
+		projections: '*'
+	},
+	children: [
+		{
+			attributes: {
+				direction: 'Forward',
+				predicate: "email = 'tobie@surrealdb.com'",
+				table: 'person'
+			},
+			context: 'Db',
+			operator: 'TableScan'
+		}
+	],
+	context: 'Db',
+	operator: 'SelectProject'
+}
+
+-------- Query --------
+
+{
+	attributes: {
+		projections: '*'
+	},
+	children: [
+		{
+			attributes: {
+				direction: 'Forward',
+				predicate: "email = 'tobie@surrealdb.com'",
+				table: 'person'
+			},
+			context: 'Db',
+			metrics: {
+				elapsed_ns: 66543,
+				output_batches: 1,
+				output_rows: 1
+			},
+			operator: 'TableScan'
+		}
+	],
+	context: 'Db',
+	metrics: {
+		elapsed_ns: 8251,
+		output_batches: 1,
+		output_rows: 1
+	},
+	operator: 'SelectProject',
+	total_rows: 1
+}
+
+```
+
+On the other hand, here is the result when the field `email` is indexed. We can see that the execution plan will use the index to retrieve the record.
+
+Index used
+
+```
+DEFINE INDEX fast_email ON TABLE person FIELDS email;
+
+CREATE person:tobie SET
+	name = "Tobie",
+	address = "1 Bagshot Row",
+	email = "tobie@surrealdb.com";
+
+SELECT * FROM person WHERE email='tobie@surrealdb.com' EXPLAIN;
+SELECT * FROM person WHERE email='tobie@surrealdb.com' EXPLAIN FULL;    
+
+```
+
+Output
+
+```
+-------- Query --------
+
+{
+	attributes: {
+		projections: '*'
+	},
+	children: [
+		{
+			attributes: {
+				access: "= 'tobie@surrealdb.com'",
+				direction: 'Forward',
+				index: 'fast_email'
+			},
+			context: 'Db',
+			operator: 'IndexScan'
+		}
+	],
+	context: 'Db',
+	operator: 'SelectProject'
+}
+
+-------- Query --------
+
+{
+	attributes: {
+		projections: '*'
+	},
+	children: [
+		{
+			attributes: {
+				access: "= 'tobie@surrealdb.com'",
+				direction: 'Forward',
+				index: 'fast_email'
+			},
+			context: 'Db',
+			metrics: {
+				elapsed_ns: 48624,
+				output_batches: 1,
+				output_rows: 1
+			},
+			operator: 'IndexScan'
+		}
+	],
+	context: 'Db',
+	metrics: {
+		elapsed_ns: 4999,
+		output_batches: 1,
+		output_rows: 1
+	},
+	operator: 'SelectProject',
+	total_rows: 1
+}
+
+```

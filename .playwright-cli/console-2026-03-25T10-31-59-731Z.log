@@ -1,0 +1,8 @@
+[     886ms] [WARNING] Error with Permissions-Policy header: Unrecognized feature: 'ambient-light-sensor'. @ :0
+[     886ms] [WARNING] Error with Permissions-Policy header: Unrecognized feature: 'battery'. @ :0
+[     886ms] [WARNING] Error with Permissions-Policy header: Unrecognized feature: 'document-domain'. @ :0
+[     886ms] [WARNING] Error with Permissions-Policy header: Unrecognized feature: 'execution-while-not-rendered'. @ :0
+[     886ms] [WARNING] Error with Permissions-Policy header: Unrecognized feature: 'execution-while-out-of-viewport'. @ :0
+[     886ms] [WARNING] Error with Permissions-Policy header: Unrecognized feature: 'navigation-override'. @ :0
+[     886ms] [ERROR] The source list for the Content Security Policy directive 'script-src-elem' contains an invalid source: ''nonce-{{nonce}}''. It will be ignored. @ https://surrealdb.com/docs/surrealql:0
+[     896ms] [ERROR] Executing inline script violates the following Content Security Policy directive 'script-src-elem 'self' 'nonce-{{nonce}}' 'sha256-KDbxcgtFUNQqWpoQ3iz+nWCd2kv0gZmIfB/Bmo2Xcvs=' tag.unifyintent.com *.intercom.io *.intercomcdn.com cdn.cr-relay.com js.hsforms.net static.ads-twitter.com snap.licdn.com *.vimeo.com embed.sequel.io *.youtube.com youtube.com'. Either the 'unsafe-inline' keyword, a hash ('sha256-oDE20jM+cYCL8tv5Y2IhjssvBsyRPtIfclqLaRnQhog='), or a nonce ('nonce-...') is required to enable inline execution. The action has been blocked. @ https://surrealdb.com/docs/surrealql:15

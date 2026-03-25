@@ -1,0 +1,405 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e3]:
+    - banner "Main navigation" [ref=e4]:
+      - generic [ref=e5]:
+        - generic [ref=e6]:
+          - link [ref=e7] [cursor=pointer]:
+            - /url: /
+            - img [ref=e8]
+          - separator [ref=e9]
+          - link "SurrealDB Docs home" [ref=e10] [cursor=pointer]:
+            - /url: /docs/
+            - img [ref=e11]
+        - list [ref=e12]:
+          - listitem [ref=e13]:
+            - link "SurrealDB" [ref=e14] [cursor=pointer]:
+              - /url: /docs/surrealdb/
+          - listitem [ref=e15]:
+            - link "SurrealQL" [ref=e16] [cursor=pointer]:
+              - /url: /docs/surrealql/
+          - listitem [ref=e17]:
+            - link "Surrealist" [ref=e18] [cursor=pointer]:
+              - /url: /docs/surrealist/
+          - listitem [ref=e19]:
+            - link "Cloud" [ref=e20] [cursor=pointer]:
+              - /url: /docs/cloud/
+          - listitem [ref=e21]:
+            - link "Extensions" [ref=e22] [cursor=pointer]:
+              - /url: /docs/surrealdb/extensions
+          - listitem [ref=e23]:
+            - button "SDKs" [ref=e24] [cursor=pointer]:
+              - generic [ref=e25]: SDKs
+          - listitem [ref=e27]:
+            - link "Integrations" [ref=e28] [cursor=pointer]:
+              - /url: /docs/integrations/
+          - listitem [ref=e29]:
+            - link "Tutorials" [ref=e30] [cursor=pointer]:
+              - /url: /docs/tutorials
+          - listitem [ref=e31]:
+            - link "University" [ref=e32] [cursor=pointer]:
+              - /url: /learn
+          - listitem [ref=e33]:
+            - link "Labs" [ref=e34] [cursor=pointer]:
+              - /url: /docs/labs/
+        - generic [ref=e35]:
+          - button "Toggle color scheme" [ref=e36] [cursor=pointer]
+          - link "Sign In" [ref=e39] [cursor=pointer]:
+            - /url: https://app.surrealdb.com/signin?_gl=1*6c6cw1*FPAU*MjUyNzg4NDQ3LjE3NzA3MzU0OTI.*_ga*MTUwNTkxNTcyNS4xNzcwNzM1NDky*_ga_J1NWM32T1V*czE3NzE4NDcxMTMkbzQ2JGcxJHQxNzcxODQ3MjAwJGo1NiRsMCRoNjUwODcxODU5*_fplc*dEpHdFVZdTN2eEolMkJBWkNUY1R5NUhKbmJySSUyRk56eEN6ZHlEcU52cTJzbUV0dXpOcmZhSU5MeXZFdW90bFdPZWRpbE4yTzA1dmZ1MiUyRlc5RnM3djhEZ2NVeGZhdmoyNW1rcFFsSmhwUXJzR1BoR2ZIWUdsMXYyZ0tJSXFmOW93JTNEJTNE
+            - generic [ref=e41]: Sign In
+    - generic [ref=e42]:
+      - button "Search documentation" [ref=e44] [cursor=pointer]:
+        - paragraph [ref=e47]: Search the docs
+      - navigation [ref=e48]:
+        - link "Overview" [ref=e49] [cursor=pointer]:
+          - /url: /docs/surrealql
+          - generic [ref=e50]: Overview
+        - link "Demo data" [ref=e51] [cursor=pointer]:
+          - /url: /docs/surrealql/demo
+          - generic [ref=e52]: Demo data
+        - link "Operators" [ref=e53] [cursor=pointer]:
+          - /url: /docs/surrealql/operators
+          - generic [ref=e54]: Operators
+        - generic [ref=e55]:
+          - heading "Data types" [level=3] [ref=e56]
+          - link "Introduction" [ref=e57] [cursor=pointer]:
+            - /url: /docs/surrealql/datamodel
+            - generic [ref=e58]: Introduction
+          - link "Arrays" [ref=e59] [cursor=pointer]:
+            - /url: /docs/surrealql/datamodel/arrays
+            - generic [ref=e60]: Arrays
+          - link "Booleans" [ref=e61] [cursor=pointer]:
+            - /url: /docs/surrealql/datamodel/booleans
+            - generic [ref=e62]: Booleans
+          - link "Bytes" [ref=e63] [cursor=pointer]:
+            - /url: /docs/surrealql/datamodel/bytes
+            - generic [ref=e64]: Bytes
+          - link "Closures" [ref=e65] [cursor=pointer]:
+            - /url: /docs/surrealql/datamodel/closures
+            - generic [ref=e66]: Closures
+          - link "Datetimes" [ref=e67] [cursor=pointer]:
+            - /url: /docs/surrealql/datamodel/datetimes
+            - generic [ref=e68]: Datetimes
+          - link "Durations" [ref=e69] [cursor=pointer]:
+            - /url: /docs/surrealql/datamodel/durations
+            - generic [ref=e70]: Durations
+          - link "Files" [ref=e71] [cursor=pointer]:
+            - /url: /docs/surrealql/datamodel/files
+            - generic [ref=e72]: Files
+          - link "Futures" [ref=e73] [cursor=pointer]:
+            - /url: /docs/surrealql/datamodel/futures
+            - generic [ref=e74]: Futures
+          - link "Geometries" [ref=e75] [cursor=pointer]:
+            - /url: /docs/surrealql/datamodel/geometries
+            - generic [ref=e76]: Geometries
+          - link "None and Null" [ref=e77] [cursor=pointer]:
+            - /url: /docs/surrealql/datamodel/none-and-null
+            - generic [ref=e78]: None and Null
+          - link "Numbers" [ref=e79] [cursor=pointer]:
+            - /url: /docs/surrealql/datamodel/numbers
+            - generic [ref=e80]: Numbers
+          - link "Objects" [ref=e81] [cursor=pointer]:
+            - /url: /docs/surrealql/datamodel/objects
+            - generic [ref=e82]: Objects
+          - link "Ranges" [ref=e83] [cursor=pointer]:
+            - /url: /docs/surrealql/datamodel/ranges
+            - generic [ref=e84]: Ranges
+          - link "Record IDs" [ref=e85] [cursor=pointer]:
+            - /url: /docs/surrealql/datamodel/ids
+            - generic [ref=e86]: Record IDs
+          - link "Regex" [ref=e87] [cursor=pointer]:
+            - /url: /docs/surrealql/datamodel/regex
+            - generic [ref=e88]: Regex
+          - link "Sets" [ref=e89] [cursor=pointer]:
+            - /url: /docs/surrealql/datamodel/sets
+            - generic [ref=e90]: Sets
+          - link "Strings" [ref=e91] [cursor=pointer]:
+            - /url: /docs/surrealql/datamodel/strings
+            - generic [ref=e92]: Strings
+          - link "UUIDs" [ref=e93] [cursor=pointer]:
+            - /url: /docs/surrealql/datamodel/uuid
+            - generic [ref=e94]: UUIDs
+          - link "Values" [ref=e95] [cursor=pointer]:
+            - /url: /docs/surrealql/datamodel/values
+            - generic [ref=e96]: Values
+          - link "Casting" [ref=e97] [cursor=pointer]:
+            - /url: /docs/surrealql/datamodel/casting
+            - generic [ref=e98]: Casting
+          - link "Formatters" [ref=e99] [cursor=pointer]:
+            - /url: /docs/surrealql/datamodel/formatters
+            - generic [ref=e100]: Formatters
+          - link "Literals" [ref=e101] [cursor=pointer]:
+            - /url: /docs/surrealql/datamodel/literals
+            - generic [ref=e102]: Literals
+          - link "Idioms" [ref=e103] [cursor=pointer]:
+            - /url: /docs/surrealql/datamodel/idioms
+            - generic [ref=e104]: Idioms
+          - link "Record links" [ref=e105] [cursor=pointer]:
+            - /url: /docs/surrealql/datamodel/records
+            - generic [ref=e106]: Record links
+          - link "Record references" [ref=e107] [cursor=pointer]:
+            - /url: /docs/surrealql/datamodel/references
+            - generic [ref=e108]: Record references
+        - generic [ref=e109]:
+          - heading "Statements" [level=3] [ref=e110]
+          - link "Introduction" [ref=e111] [cursor=pointer]:
+            - /url: /docs/surrealql/statements
+            - generic [ref=e112]: Introduction
+          - link "ACCESS" [ref=e113] [cursor=pointer]:
+            - /url: /docs/surrealql/statements/access
+            - generic [ref=e114]: ACCESS
+          - link "ALTER" [ref=e115] [cursor=pointer]:
+            - /url: /docs/surrealql/statements/alter/
+            - generic [ref=e116]: ALTER
+            - img [ref=e118]
+          - link "BEGIN" [ref=e120] [cursor=pointer]:
+            - /url: /docs/surrealql/statements/begin
+            - generic [ref=e121]: BEGIN
+          - link "BREAK" [ref=e122] [cursor=pointer]:
+            - /url: /docs/surrealql/statements/break
+            - generic [ref=e123]: BREAK
+          - link "CANCEL" [ref=e124] [cursor=pointer]:
+            - /url: /docs/surrealql/statements/cancel
+            - generic [ref=e125]: CANCEL
+          - link "COMMIT" [ref=e126] [cursor=pointer]:
+            - /url: /docs/surrealql/statements/commit
+            - generic [ref=e127]: COMMIT
+          - link "CONTINUE" [ref=e128] [cursor=pointer]:
+            - /url: /docs/surrealql/statements/continue
+            - generic [ref=e129]: CONTINUE
+          - link "CREATE" [ref=e130] [cursor=pointer]:
+            - /url: /docs/surrealql/statements/create
+            - generic [ref=e131]: CREATE
+          - link "DEFINE" [ref=e132] [cursor=pointer]:
+            - /url: /docs/surrealql/statements/define/
+            - generic [ref=e133]: DEFINE
+            - img [ref=e135]
+          - link "DELETE" [ref=e137] [cursor=pointer]:
+            - /url: /docs/surrealql/statements/delete
+            - generic [ref=e138]: DELETE
+          - link "EXPLAIN" [ref=e139] [cursor=pointer]:
+            - /url: /docs/surrealql/statements/explain
+            - generic [ref=e140]: EXPLAIN
+          - link "FOR" [ref=e141] [cursor=pointer]:
+            - /url: /docs/surrealql/statements/for
+            - generic [ref=e142]: FOR
+          - link "IF ELSE" [ref=e143] [cursor=pointer]:
+            - /url: /docs/surrealql/statements/ifelse
+            - generic [ref=e144]: IF ELSE
+          - link "INFO" [ref=e145] [cursor=pointer]:
+            - /url: /docs/surrealql/statements/info
+            - generic [ref=e146]: INFO
+          - link "INSERT" [ref=e147] [cursor=pointer]:
+            - /url: /docs/surrealql/statements/insert
+            - generic [ref=e148]: INSERT
+          - link "KILL" [ref=e149] [cursor=pointer]:
+            - /url: /docs/surrealql/statements/kill
+            - generic [ref=e150]: KILL
+          - link "LET" [ref=e151] [cursor=pointer]:
+            - /url: /docs/surrealql/statements/let
+            - generic [ref=e152]: LET
+          - link "LIVE" [ref=e153] [cursor=pointer]:
+            - /url: /docs/surrealql/statements/live
+            - generic [ref=e154]: LIVE
+          - link "REBUILD" [ref=e155] [cursor=pointer]:
+            - /url: /docs/surrealql/statements/rebuild
+            - generic [ref=e156]: REBUILD
+          - link "RELATE" [ref=e157] [cursor=pointer]:
+            - /url: /docs/surrealql/statements/relate
+            - generic [ref=e158]: RELATE
+          - link "REMOVE" [ref=e159] [cursor=pointer]:
+            - /url: /docs/surrealql/statements/remove
+            - generic [ref=e160]: REMOVE
+          - link "RETURN" [ref=e161] [cursor=pointer]:
+            - /url: /docs/surrealql/statements/return
+            - generic [ref=e162]: RETURN
+          - link "SELECT" [ref=e163] [cursor=pointer]:
+            - /url: /docs/surrealql/statements/select
+            - generic [ref=e164]: SELECT
+          - link "SHOW" [ref=e165] [cursor=pointer]:
+            - /url: /docs/surrealql/statements/show
+            - generic [ref=e166]: SHOW
+          - link "SLEEP" [ref=e167] [cursor=pointer]:
+            - /url: /docs/surrealql/statements/sleep
+            - generic [ref=e168]: SLEEP
+          - link "THROW" [ref=e169] [cursor=pointer]:
+            - /url: /docs/surrealql/statements/throw
+            - generic [ref=e170]: THROW
+          - link "UPDATE" [ref=e171] [cursor=pointer]:
+            - /url: /docs/surrealql/statements/update
+            - generic [ref=e172]: UPDATE
+          - link "UPSERT" [ref=e173] [cursor=pointer]:
+            - /url: /docs/surrealql/statements/upsert
+            - generic [ref=e174]: UPSERT
+          - link "USE" [ref=e175] [cursor=pointer]:
+            - /url: /docs/surrealql/statements/use
+            - generic [ref=e176]: USE
+        - link "Parameters" [ref=e177] [cursor=pointer]:
+          - /url: /docs/surrealql/parameters
+          - generic [ref=e178]: Parameters
+        - generic [ref=e179]:
+          - heading "Clauses" [level=3] [ref=e180]
+          - link "Introduction" [ref=e181] [cursor=pointer]:
+            - /url: /docs/surrealql/clauses
+            - generic [ref=e182]: Introduction
+          - link "EXPLAIN" [ref=e183] [cursor=pointer]:
+            - /url: /docs/surrealql/clauses/explain
+            - generic [ref=e184]: EXPLAIN
+          - link "FETCH" [ref=e185] [cursor=pointer]:
+            - /url: /docs/surrealql/clauses/fetch
+            - generic [ref=e186]: FETCH
+          - link "FROM" [ref=e187] [cursor=pointer]:
+            - /url: /docs/surrealql/clauses/from
+            - generic [ref=e188]: FROM
+          - link "GROUP BY" [ref=e189] [cursor=pointer]:
+            - /url: /docs/surrealql/clauses/group-by
+            - generic [ref=e190]: GROUP BY
+          - link "LIMIT" [ref=e191] [cursor=pointer]:
+            - /url: /docs/surrealql/clauses/limit
+            - generic [ref=e192]: LIMIT
+          - link "OMIT" [ref=e193] [cursor=pointer]:
+            - /url: /docs/surrealql/clauses/omit
+            - generic [ref=e194]: OMIT
+          - link "ORDER BY" [ref=e195] [cursor=pointer]:
+            - /url: /docs/surrealql/clauses/order-by
+            - generic [ref=e196]: ORDER BY
+          - link "SPLIT" [ref=e197] [cursor=pointer]:
+            - /url: /docs/surrealql/clauses/split
+            - generic [ref=e198]: SPLIT
+          - link "WHERE" [ref=e199] [cursor=pointer]:
+            - /url: /docs/surrealql/clauses/where
+            - generic [ref=e200]: WHERE
+          - link "WITH" [ref=e201] [cursor=pointer]:
+            - /url: /docs/surrealql/clauses/with
+            - generic [ref=e202]: WITH
+        - link "Transactions" [ref=e203] [cursor=pointer]:
+          - /url: /docs/surrealql/transactions
+          - generic [ref=e204]: Transactions
+        - generic [ref=e205]:
+          - heading "Functions" [level=3] [ref=e206]
+          - link "Introduction" [ref=e207] [cursor=pointer]:
+            - /url: /docs/surrealql/functions
+            - generic [ref=e208]: Introduction
+          - link "Database Functions" [ref=e209] [cursor=pointer]:
+            - /url: /docs/surrealql/functions/database/
+            - generic [ref=e210]: Database Functions
+            - img [ref=e212]
+          - link "JavaScript functions" [ref=e214] [cursor=pointer]:
+            - /url: /docs/surrealql/functions/script/
+            - generic [ref=e215]: JavaScript functions
+            - img [ref=e217]
+          - link "SurrealML Functions" [ref=e219] [cursor=pointer]:
+            - /url: /docs/surrealql/functions/ml/
+            - generic [ref=e220]: SurrealML Functions
+            - img [ref=e222]
+        - link "Comments" [ref=e224] [cursor=pointer]:
+          - /url: /docs/surrealql/comments
+          - generic [ref=e225]: Comments
+    - generic [ref=e226]:
+      - generic [ref=e227]:
+        - generic [ref=e228]:
+          - generic [ref=e230]:
+            - link "Home" [ref=e231] [cursor=pointer]:
+              - /url: /
+            - link "Overview" [ref=e235] [cursor=pointer]:
+              - /url: /docs/surrealql
+          - button "Copy page" [ref=e236] [cursor=pointer]:
+            - generic [ref=e240]: Copy page
+        - main [ref=e243]:
+          - generic [ref=e245]:
+            - generic [ref=e246]:
+              - img "SurrealQL" [ref=e247]
+              - heading "SurrealQL" [level=1] [ref=e248]:
+                - text: SurrealQL
+                - link [ref=e249] [cursor=pointer]:
+                  - /url: "#surrealql"
+            - paragraph [ref=e251]: SurrealQL is a powerful and intuitive database query language that closely resembles traditional SQL but comes with unique differences and improvements.
+            - paragraph [ref=e252]: SurrealQL is designed to provide developers with a seamless and intuitive way to interact with SurrealDB. It offers a familiar syntax and supports various statement types, allowing you to perform complex database operations efficiently.
+            - paragraph [ref=e253]: While SurrealQL shares similarities with traditional SQL, it introduces enhancements and optimizations that make it well-suited for working with SurrealDB's advanced features and data models. Whether you are querying data, modifying records, or managing database structures, SurrealQL provides a comprehensive set of capabilities to meet your needs.
+            - heading "Key Features" [level=2] [ref=e254]:
+              - text: Key Features
+              - link [ref=e255] [cursor=pointer]:
+                - /url: "#key-features"
+            - paragraph [ref=e257]: "SurrealQL offers several key features that make it a powerful tool for working with SurrealDB:"
+            - list [ref=e258]:
+              - listitem [ref=e259]:
+                - paragraph [ref=e262]:
+                  - strong [ref=e263]: Familiar Syntax
+                  - text: ": SurrealQL adopts a syntax similar to traditional SQL, making it easy for developers familiar with SQL to transition to SurrealDB seamlessly."
+              - listitem [ref=e264]:
+                - paragraph [ref=e267]:
+                  - strong [ref=e268]: Advanced Querying
+                  - text: ": SurrealQL supports a wide range of querying capabilities, including filtering, sorting, aggregating, and joining data from multiple tables."
+              - listitem [ref=e269]:
+                - paragraph [ref=e272]:
+                  - strong [ref=e273]: Data Manipulation
+                  - text: ": With SurrealQL, you can easily insert, update, and delete records in your SurrealDB database, allowing you to manage your data effectively."
+              - listitem [ref=e274]:
+                - paragraph [ref=e277]:
+                  - strong [ref=e278]: Graph relationships
+                  - text: ": SurrealQL supports graph relationships, allowing you to define and query relationships between records in your database."
+              - listitem [ref=e279]:
+                - paragraph [ref=e282]:
+                  - strong [ref=e283]: Schema Management
+                  - text: ": SurrealQL provides features for creating and modifying database schemas, allowing you to define the structure of your data and enforce data integrity."
+              - listitem [ref=e284]:
+                - paragraph [ref=e287]:
+                  - strong [ref=e288]: Performance Optimization
+                  - text: ": SurrealQL incorporates optimizations specific to SurrealDB, ensuring efficient execution of queries and minimizing resource usage."
+            - heading "Getting Started" [level=2] [ref=e289]:
+              - text: Getting Started
+              - link [ref=e290] [cursor=pointer]:
+                - /url: "#getting-started"
+            - paragraph [ref=e292]:
+              - text: To start using
+              - link "SurrealQL" [ref=e293] [cursor=pointer]:
+                - /url: /docs/surrealql/statements/begin
+              - text: ", refer to the documentation on the various statement types and their syntax. The statements page provides comprehensive examples and explanations for each statement type, helping you understand how to construct queries and interact with SurrealDB effectively."
+            - paragraph [ref=e294]: SurrealQL empowers you to leverage the full potential of SurrealDB and enables you to build robust and scalable applications. Let's dive into the world of SurrealQL and unlock the capabilities of SurrealDB together!
+        - generic [ref=e295]:
+          - generic [ref=e296]:
+            - link "Edit page" [ref=e297] [cursor=pointer]:
+              - /url: https://github.com/surrealdb/docs.surrealdb.com/edit/main/src/content/doc-surrealql/index.mdx
+              - text: Edit page
+            - link "Report an issue" [ref=e299] [cursor=pointer]:
+              - /url: https://github.com/surrealdb/docs.surrealdb.com/issues/new
+              - text: Report an issue
+          - button "Was this page helpful?" [ref=e301] [cursor=pointer]:
+            - generic [ref=e305]: Was this page helpful?
+        - link "Next Demo data" [ref=e308] [cursor=pointer]:
+          - /url: /docs/surrealql/demo
+          - generic [ref=e310]:
+            - paragraph [ref=e311]: Next
+            - paragraph [ref=e312]: Demo data
+        - contentinfo [ref=e314]:
+          - generic [ref=e315]:
+            - link "© SurrealDB 2026" [ref=e316] [cursor=pointer]:
+              - /url: https://github.com/surrealdb
+            - generic [ref=e317]: "|"
+            - navigation "SurrealDB footer links" [ref=e318]:
+              - link "Contributing" [ref=e319] [cursor=pointer]:
+                - /url: https://github.com/surrealdb/docs.surrealdb.com/blob/main/README.md#contributing-to-the-documentation
+              - link "Open Source" [ref=e320] [cursor=pointer]:
+                - /url: /opensource
+            - generic [ref=e321]:
+              - link "YouTube" [ref=e322] [cursor=pointer]:
+                - /url: https://www.youtube.com/@surrealdb
+              - link "Twitter" [ref=e325] [cursor=pointer]:
+                - /url: https://x.com/surrealdb
+              - link "Github" [ref=e328] [cursor=pointer]:
+                - /url: https://github.com/surrealdb
+              - link "Discord" [ref=e331] [cursor=pointer]:
+                - /url: https://discord.gg/surrealdb
+              - link "Bluesky" [ref=e334] [cursor=pointer]:
+                - /url: https://bsky.app/profile/surrealdb.com
+      - complementary [ref=e337]:
+        - paragraph [ref=e338]: On this page
+        - list [ref=e339]:
+          - listitem [ref=e340]:
+            - link "Key Features" [ref=e343] [cursor=pointer]:
+              - /url: "#key-features"
+          - listitem [ref=e344]:
+            - link "Getting Started" [ref=e347] [cursor=pointer]:
+              - /url: "#getting-started"
+  - generic:
+    - generic:
+      - generic "Page feedback"

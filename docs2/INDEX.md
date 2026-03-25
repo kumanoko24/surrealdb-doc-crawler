@@ -1,0 +1,143 @@
+# SurrealQL Docs — BFS Traversal Index
+
+Crawled: 2026-03-25 19:10:46
+Pages: 138  |  Errors: 0
+
+- [SurrealQL](docs2/docs/surrealql.md) — 2385 chars
+- [Clauses](docs2/docs/surrealql/clauses.md) — 659 chars
+- [EXPLAIN clause](docs2/docs/surrealql/clauses/explain.md) — 3085 chars
+- [FETCH clause](docs2/docs/surrealql/clauses/fetch.md) — 1989 chars
+- [FROM clause](docs2/docs/surrealql/clauses/from.md) — 2735 chars
+- [GROUP BY clause](docs2/docs/surrealql/clauses/group-by.md) — 1802 chars
+- [LIMIT clause](docs2/docs/surrealql/clauses/limit.md) — 1301 chars
+- [OMIT clause](docs2/docs/surrealql/clauses/omit.md) — 1350 chars
+- [ORDER BY clause](docs2/docs/surrealql/clauses/order-by.md) — 1581 chars
+- [SPLIT clause](docs2/docs/surrealql/clauses/split.md) — 4123 chars
+- [WHERE clause](docs2/docs/surrealql/clauses/where.md) — 2634 chars
+- [WITH clause](docs2/docs/surrealql/clauses/with.md) — 1991 chars
+- [Comments](docs2/docs/surrealql/comments.md) — 491 chars
+- [Data types](docs2/docs/surrealql/datamodel.md) — 3630 chars
+- [Arrays](docs2/docs/surrealql/datamodel/arrays.md) — 5630 chars
+- [Booleans](docs2/docs/surrealql/datamodel/booleans.md) — 1858 chars
+- [Bytes](docs2/docs/surrealql/datamodel/bytes.md) — 1123 chars
+- [Casting](docs2/docs/surrealql/datamodel/casting.md) — 9674 chars
+- [Anonymous functions (closures)](docs2/docs/surrealql/datamodel/closures.md) — 4468 chars
+- [Datetimes](docs2/docs/surrealql/datamodel/datetimes.md) — 3705 chars
+- [Durations](docs2/docs/surrealql/datamodel/durations.md) — 1536 chars
+- [Files](docs2/docs/surrealql/datamodel/files.md) — 2584 chars
+- [Formatters](docs2/docs/surrealql/datamodel/formatters.md) — 4458 chars
+- [Futures](docs2/docs/surrealql/datamodel/futures.md) — 3771 chars
+- [Geometries](docs2/docs/surrealql/datamodel/geometries.md) — 8659 chars
+- [Idioms](docs2/docs/surrealql/datamodel/idioms.md) — 40843 chars
+- [Record IDs](docs2/docs/surrealql/datamodel/ids.md) — 21397 chars
+- [Literals](docs2/docs/surrealql/datamodel/literals.md) — 3937 chars
+- [None and null](docs2/docs/surrealql/datamodel/none-and-null.md) — 2645 chars
+- [Numbers](docs2/docs/surrealql/datamodel/numbers.md) — 4720 chars
+- [Objects](docs2/docs/surrealql/datamodel/objects.md) — 3422 chars
+- [Ranges](docs2/docs/surrealql/datamodel/ranges.md) — 4004 chars
+- [Record links](docs2/docs/surrealql/datamodel/records.md) — 2945 chars
+- [Record references](docs2/docs/surrealql/datamodel/references.md) — 11856 chars
+- [Regex](docs2/docs/surrealql/datamodel/regex.md) — 611 chars
+- [Sets](docs2/docs/surrealql/datamodel/sets.md) — 2777 chars
+- [Strings](docs2/docs/surrealql/datamodel/strings.md) — 5265 chars
+- [UUIDs](docs2/docs/surrealql/datamodel/uuid.md) — 458 chars
+- [Values](docs2/docs/surrealql/datamodel/values.md) — 3649 chars
+- [Demo data](docs2/docs/surrealql/demo.md) — 3035 chars
+- [Functions](docs2/docs/surrealql/functions.md) — 228 chars
+- [Database Functions](docs2/docs/surrealql/functions/database.md) — 7887 chars
+- [API functions](docs2/docs/surrealql/functions/database/api.md) — 9234 chars
+- [Array functions](docs2/docs/surrealql/functions/database/array.md) — 53994 chars
+- [Bytes functions](docs2/docs/surrealql/functions/database/bytes.md) — 594 chars
+- [Count function](docs2/docs/surrealql/functions/database/count.md) — 2616 chars
+- [Crypto functions](docs2/docs/surrealql/functions/database/crypto.md) — 7678 chars
+- [Duration functions](docs2/docs/surrealql/functions/database/duration.md) — 8587 chars
+- [Encoding functions](docs2/docs/surrealql/functions/database/encoding.md) — 2870 chars
+- [File functions](docs2/docs/surrealql/functions/database/file.md) — 9566 chars
+- [Geo functions](docs2/docs/surrealql/functions/database/geo.md) — 6035 chars
+- [HTTP functions](docs2/docs/surrealql/functions/database/http.md) — 9141 chars
+- [Math functions](docs2/docs/surrealql/functions/database/math.md) — 28053 chars
+- [Meta functions](docs2/docs/surrealql/functions/database/meta.md) — 1114 chars
+- [Not function](docs2/docs/surrealql/functions/database/not.md) — 1138 chars
+- [Object functions](docs2/docs/surrealql/functions/database/object.md) — 5531 chars
+- [Parse functions](docs2/docs/surrealql/functions/database/parse.md) — 4471 chars
+- [Rand functions](docs2/docs/surrealql/functions/database/rand.md) — 8881 chars
+- [Record functions](docs2/docs/surrealql/functions/database/record.md) — 2996 chars
+- [Search functions](docs2/docs/surrealql/functions/database/search.md) — 10383 chars
+- [Sequence functions](docs2/docs/surrealql/functions/database/sequence.md) — 425 chars
+- [Session functions](docs2/docs/surrealql/functions/database/session.md) — 2840 chars
+- [Set functions](docs2/docs/surrealql/functions/database/set.md) — 13075 chars
+- [Sleep function](docs2/docs/surrealql/functions/database/sleep.md) — 2865 chars
+- [String Functions](docs2/docs/surrealql/functions/database/string.md) — 39357 chars
+- [Time Functions](docs2/docs/surrealql/functions/database/time.md) — 19798 chars
+- [Type Functions](docs2/docs/surrealql/functions/database/type.md) — 26989 chars
+- [Value functions](docs2/docs/surrealql/functions/database/value.md) — 2737 chars
+- [Vector functions](docs2/docs/surrealql/functions/database/vector.md) — 11624 chars
+- [Machine Learning functions](docs2/docs/surrealql/functions/ml.md) — 220 chars
+- [Machine Learning functions](docs2/docs/surrealql/functions/ml/functions.md) — 3505 chars
+- [Embedded scripting functions](docs2/docs/surrealql/functions/script.md) — 645 chars
+- [Arguments](docs2/docs/surrealql/functions/script/arguments.md) — 489 chars
+- [Built-in functions](docs2/docs/surrealql/functions/script/built-in-functions.md) — 3041 chars
+- [Function context](docs2/docs/surrealql/functions/script/context.md) — 643 chars
+- [SurrealQL functions](docs2/docs/surrealql/functions/script/surrealql-functions.md) — 453 chars
+- [Type conversion](docs2/docs/surrealql/functions/script/type-conversion.md) — 1027 chars
+- [Operators](docs2/docs/surrealql/operators.md) — 18016 chars
+- [Parameters](docs2/docs/surrealql/parameters.md) — 13432 chars
+- [Statements](docs2/docs/surrealql/statements.md) — 5778 chars
+- [ACCESS statement](docs2/docs/surrealql/statements/access.md) — 16876 chars
+- [ALTER statement](docs2/docs/surrealql/statements/alter.md) — 1984 chars
+- [ALTER DATABASE statement](docs2/docs/surrealql/statements/alter/database.md) — 934 chars
+- [ALTER FIELD statement](docs2/docs/surrealql/statements/alter/field.md) — 1512 chars
+- [ALTER INDEX statement](docs2/docs/surrealql/statements/alter/indexes.md) — 1051 chars
+- [ALTER NAMESPACE statement](docs2/docs/surrealql/statements/alter/namespace.md) — 971 chars
+- [ALTER SEQUENCE statement](docs2/docs/surrealql/statements/alter/sequence.md) — 931 chars
+- [ALTER SYSTEM statement](docs2/docs/surrealql/statements/alter/system.md) — 1604 chars
+- [ALTER TABLE statement](docs2/docs/surrealql/statements/alter/table.md) — 1139 chars
+- [BEGIN statement](docs2/docs/surrealql/statements/begin.md) — 2963 chars
+- [BREAK statement](docs2/docs/surrealql/statements/break.md) — 1387 chars
+- [CANCEL statement](docs2/docs/surrealql/statements/cancel.md) — 1432 chars
+- [COMMIT statement](docs2/docs/surrealql/statements/commit.md) — 1933 chars
+- [CONTINUE statement](docs2/docs/surrealql/statements/continue.md) — 1162 chars
+- [CREATE statement](docs2/docs/surrealql/statements/create.md) — 14099 chars
+- [DEFINE statement](docs2/docs/surrealql/statements/define.md) — 3453 chars
+- [DEFINE ACCESS statement](docs2/docs/surrealql/statements/define/access.md) — 4311 chars
+- [DEFINE ACCESS ... TYPE BEARER](docs2/docs/surrealql/statements/define/access/bearer.md) — 7355 chars
+- [DEFINE ACCESS ... TYPE JWT](docs2/docs/surrealql/statements/define/access/jwt.md) — 16363 chars
+- [DEFINE ACCESS ... TYPE RECORD](docs2/docs/surrealql/statements/define/access/record.md) — 21572 chars
+- [DEFINE ANALYZER statement](docs2/docs/surrealql/statements/define/analyzer.md) — 14586 chars
+- [DEFINE API statement](docs2/docs/surrealql/statements/define/api.md) — 7503 chars
+- [DEFINE BUCKET statement](docs2/docs/surrealql/statements/define/bucket.md) — 4541 chars
+- [DEFINE CONFIG statement](docs2/docs/surrealql/statements/define/config.md) — 14492 chars
+- [DEFINE DATABASE statement](docs2/docs/surrealql/statements/define/database.md) — 2966 chars
+- [DEFINE EVENT statement](docs2/docs/surrealql/statements/define/event.md) — 13581 chars
+- [DEFINE FIELD statement](docs2/docs/surrealql/statements/define/field.md) — 22746 chars
+- [DEFINE FUNCTION statement](docs2/docs/surrealql/statements/define/function.md) — 9674 chars
+- [DEFINE INDEX statement](docs2/docs/surrealql/statements/define/indexes.md) — 18421 chars
+- [DEFINE MODULE statement](docs2/docs/surrealql/statements/define/module.md) — 1156 chars
+- [DEFINE NAMESPACE statement](docs2/docs/surrealql/statements/define/namespace.md) — 2598 chars
+- [DEFINE PARAM statement](docs2/docs/surrealql/statements/define/param.md) — 2350 chars
+- [DEFINE SCOPE statement](docs2/docs/surrealql/statements/define/scope.md) — 1462 chars
+- [DEFINE SEQUENCE statement](docs2/docs/surrealql/statements/define/sequence.md) — 2681 chars
+- [DEFINE TABLE statement](docs2/docs/surrealql/statements/define/table.md) — 18175 chars
+- [DEFINE TOKEN statement](docs2/docs/surrealql/statements/define/token.md) — 16026 chars
+- [DEFINE USER statement](docs2/docs/surrealql/statements/define/user.md) — 5322 chars
+- [DELETE statement](docs2/docs/surrealql/statements/delete.md) — 6015 chars
+- [EXPLAIN statement](docs2/docs/surrealql/statements/explain.md) — 4664 chars
+- [FOR statement](docs2/docs/surrealql/statements/for.md) — 1803 chars
+- [IF ELSE statement](docs2/docs/surrealql/statements/ifelse.md) — 3829 chars
+- [INFO statement](docs2/docs/surrealql/statements/info.md) — 10568 chars
+- [INSERT statement](docs2/docs/surrealql/statements/insert.md) — 7778 chars
+- [KILL statement](docs2/docs/surrealql/statements/kill.md) — 1666 chars
+- [LET Statement](docs2/docs/surrealql/statements/let.md) — 4889 chars
+- [LIVE SELECT statement](docs2/docs/surrealql/statements/live.md) — 3546 chars
+- [REBUILD statement](docs2/docs/surrealql/statements/rebuild.md) — 1212 chars
+- [RELATE statement](docs2/docs/surrealql/statements/relate.md) — 45931 chars
+- [REMOVE statement](docs2/docs/surrealql/statements/remove.md) — 5460 chars
+- [RETURN statement](docs2/docs/surrealql/statements/return.md) — 3140 chars
+- [SELECT statement](docs2/docs/surrealql/statements/select.md) — 28251 chars
+- [SHOW statement](docs2/docs/surrealql/statements/show.md) — 2487 chars
+- [SLEEP statement](docs2/docs/surrealql/statements/sleep.md) — 1871 chars
+- [THROW statement](docs2/docs/surrealql/statements/throw.md) — 2272 chars
+- [UPDATE statement](docs2/docs/surrealql/statements/update.md) — 10739 chars
+- [UPSERT statement](docs2/docs/surrealql/statements/upsert.md) — 14429 chars
+- [USE statement](docs2/docs/surrealql/statements/use.md) — 1904 chars
+- [Transactions](docs2/docs/surrealql/transactions.md) — 6006 chars

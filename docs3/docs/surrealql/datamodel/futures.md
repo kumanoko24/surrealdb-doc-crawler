@@ -1,0 +1,142 @@
+---
+title: Futures
+url: https://surrealdb.com/docs/surrealql/datamodel/futures
+crawled_at: 2026-03-25 21:40:07
+---
+
+# Futures
+
+
+###### Note
+
+
+The `future` type is only available up to SurrealDB 2.x. Since version 3.0.0-beta, it has been replaced by [defined fields using the COMPUTED clause](/docs/surrealql/statements/define/field#computed-fields). Most examples in this page include an equivalent `COMPUTED` clause to aid in migrating to the new implementation.
+
+Futures are values which are only computed when the data is selected and returned to the client. Futures can be stored inside records, to enable dynamic values which are always calculated when queried.
+
+## Simple futures
+
+
+Any value or expression can be used inside a future. This value will be dynamically computed on every access to the record.
+Legacy future typeWith COMPUTED clause
+```
+CREATE person SET accessed_date = <future> { time::now() };
+
+```
+
+```
+-- Only used inside a DEFINE FIELD statementDEFINE FIELD accessed_date ON person COMPUTED time::now();
+```
+
+## Futures inside schema definitions
+
+
+A future can be added to a schema definition as well.
+Legacy future typeWith COMPUTED clause
+```
+DEFINE FIELD accessed_at ON TABLE user VALUE <future> { time::now() };
+
+CREATE user:one;
+SELECT * FROM ONLY user:one;
+-- Sleep for one second
+SLEEP 1s;
+-- `accessed_at` is a different value now
+SELECT * FROM ONLY user:one;
+
+```
+
+```
+DEFINE FIELD accessed_at ON TABLE user COMPUTED time::now();CREATE user:one;SELECT * FROM ONLY user:one;-- Sleep for one secondSLEEP 1s;-- `accessed_at` is a different value nowSELECT * FROM ONLY user:one;
+```
+
+This differs from a `VALUE` clause which is only calculated when it is modified (created or updated), but is not recalculated during a `SELECT` query which does not modify a record.
+
+```
+DEFINE FIELD updated ON TABLE user VALUE time::now();
+
+CREATE user:one;
+SELECT * FROM ONLY user:one;
+-- Sleep for one second
+SLEEP 1s;
+-- `updated` is still the same
+SELECT * FROM ONLY user:one;
+
+```
+
+## Futures depending on statements
+
+
+If the value of a future is the result of a statement, it must be wrapped in parentheses.
+Legacy future typeWith COMPUTED clause
+```
+DEFINE FIELD random_movie
+    ON app_screen
+    VALUE <future> { (SELECT * FROM ONLY movie ORDER BY RAND() LIMIT 1) };
+
+```
+
+```
+-- No need for parenthesesDEFINE FIELD random_movie    ON app_screen    COMPUTED SELECT * FROM ONLY movie ORDER BY RAND() LIMIT 1;
+```
+
+If your statement is wrapped in parentheses, you need to access the fields using the $parent variable.
+
+```
+DEFINE FIELD OVERWRITE followers
+    ON user
+    VALUE <future> { (SELECT VALUE count FROM ONLY follower_count WHERE user = $parent.id LIMIT 1) ?? 0 };
+
+```
+
+## Avoiding infinite recursion
+
+
+When defining a future on a field, be sure to avoid any statements that would cause infinite recursion. In the following example, the `random_friend` field is defined by a statement that uses a `SELECT` statement on all the fields of the same `person` table, one of which will also use the same `future` to compute its value.
+
+```
+CREATE |person:10| SET name = "Person " + <string>id.id() RETURN NONE;
+
+DEFINE FIELD random_friend
+    ON person
+    VALUE <future> { (SELECT * FROM ONLY person ORDER BY RAND() LIMIT 1) };
+
+CREATE person;
+
+```
+
+Output
+
+```
+'Reached excessive computation depth due to functions, subqueries, or futures'
+
+```
+
+A `SELECT` query that does not access the field defined by a future will avoid the infinite recursion.
+
+```
+CREATE |person:10| SET name = "Person " + <string>id.id() RETURN NONE;
+
+DEFINE FIELD random_friend
+    ON person
+    VALUE <future> { (SELECT VALUE name FROM ONLY person ORDER BY RAND() LIMIT 1) };
+
+CREATE person;
+
+```
+
+Output
+
+```
+[
+	{
+		id: person:4o973bouhd6xrj8l2x69,
+		random_friend: 'Person imoy71qbhnsgjtczybiq'
+	}
+]
+
+```
+
+## Next steps
+
+
+You've now seen how to create dynamically computed properties on records, using either simple values, and values which depend on local and remote record fields. Take a look at the next chapter to get into SurrealDB's geospatial types.

@@ -1,0 +1,307 @@
+---
+title: UPSERT statement
+url: https://surrealdb.com/docs/surrealql/statements/upsert
+crawled_at: 2026-03-25 18:41:38
+---
+
+# UPSERT statement
+
+
+The `UPSERT` statement can be used to insert records into the database, or to update them if they exist.
+
+###### Note
+
+
+In versions of SurrealDB between 2.0.0 and 2.0.4, an UPSERT statement was treated as an "UPDATE, otherwise INSERT" statement. It has since been changed to a statement which defaults to insertion, and updates otherwise. Please see the examples below for details.
+
+### Statement syntax
+
+SurrealQL SyntaxRailroad Diagram
+SurrealQL Syntax
+
+```
+UPSERT [ ONLY ] @targets    [ CONTENT @value      | MERGE @value      | PATCH @value	  | REPLACE @value      | [ SET @field = @value, ... | UNSET @field, ... ]    ]    [ WHERE @condition ]    [ RETURN NONE | RETURN BEFORE | RETURN AFTER | RETURN DIFF | RETURN @statement_param, ... | RETURN VALUE @statement_param ]    [ TIMEOUT @duration ]	[ EXPLAIN [ FULL ]];
+```
+UPSERTONLY@targetsCONTENT@valueMERGE@valuePATCH@valueREPLACE@valueSETUNSET@field (=|,) @value ...WHERE@conditionRETURNNONEBEFOREAFTERDIFF@statement_param, ...VALUE@statement_paramTIMEOUT@durationEXPLAINFULL;
+## Example usage
+
+
+Conceptually, an `UPSERT` statement can be thought of as an "`INSERT`, otherwise `UPDATE`" statement.
+
+### UPSERT without a WHERE clause
+
+
+As an `UPSERT` statement is primarily an `INSERT` statement, one without a `WHERE` clause will not perform an update.
+
+```
+UPSERT person SET name = 'Billy';UPSERT person SET name = 'Bobby';SELECT * FROM person;
+```
+
+As the output shows, the second `UPSERT` simply inserted another `person` record with the name "Bobby", rather than updating the existing record.
+
+Output
+
+```
+-------- Query --------[	{		id: person:c2bl54ahi551fcx9dqri,		name: 'Billy'	}]-------- Query --------[	{		id: person:886dcoe1ayul217nl2fu,		name: 'Bobby'	}]-------- Query --------[	{		id: person:886dcoe1ayul217nl2fu,		name: 'Bobby'	},	{		id: person:c2bl54ahi551fcx9dqri,		name: 'Billy'	}]
+```
+
+### Using the WHERE clause
+
+
+#### Without a specified ID
+
+
+When using the `WHERE` clause and no specified ID, SurrealDB will check to see if any records match the clause. If nothing matches, a new record will be created.
+
+As such, the following `UPSERT` statement will return a new record:
+
+```
+UPSERT person SET name = 'Jaime' WHERE name = 'Jaime';
+```
+
+Output
+
+```
+[	{		id: person:7ilunylkcjgbg9gf0tqn,		name: 'Jaime'	}]
+```
+
+Since a record with the name 'Jaime' exists, an `UPSERT` followed by `WHERE name = 'Jaime'` will update the existing record instead of creating a new one.
+
+```
+UPSERT person SET name = 'Tobie' WHERE name = 'Jaime';
+```
+
+Output
+
+```
+[	{		id: person:7ilunylkcjgbg9gf0tqn,		name: 'Tobie'	}]
+```
+
+Now that no records have the name `'Jaime'`, the same query as above will now create a new record because no records match the `WHERE` clause. The database will now have two `person` records.
+
+```
+UPSERT person SET name = 'Tobie' WHERE name = 'Jaime';SELECT * FROM person;
+```
+
+Output
+
+```
+-- Query[	{		id: person:0n0ddlkmhe6mdb6ikkui,		name: 'Tobie'	}]-- Query[	{		id: person:0n0ddlkmhe6mdb6ikkui,		name: 'Tobie'	},	{		id: person:7ilunylkcjgbg9gf0tqn,		name: 'Tobie'	}]
+```
+
+#### With a specified ID
+
+
+`UPSERT` behaviour with a specific ID and a `WHERE` clause differs slightly from the examples above. In this case, there is the possibility that a record ID already exists but the `WHERE` clause does not match. As such, there is no way to create a new record as the statement only pertains to an ID for an already existing record.
+
+The following query will return a record, because the `person:test` record does not yet exist. The `WHERE` clause makes no difference as there is no record to apply it to.
+
+```
+UPSERT person:test SET name = 'Jaime' WHERE name = 'Jaime';
+```
+
+Output
+
+```
+[	{		id: person:test,		name: 'Jaime'	}]
+```
+
+The following query will update the `person:test` record, because the record exists and the `WHERE` clause matches. The `person:test` record will now have the name `'Tobie'`.
+
+```
+UPSERT person:test SET name = 'Tobie' WHERE name = 'Jaime';
+```
+
+Output
+
+```
+[	{		id: person:test,		name: 'Tobie'	}]
+```
+
+However, this third query will return nothing. The `WHERE` clause does not match and thus `person:test` cannot be updated, and the statement itself only pertains to the `person:test` record, so a new record using a random ID will not be returned.
+
+```
+UPSERT person:test SET name = 'Billy' WHERE name = 'Jaime';
+```
+
+Output
+
+```
+[]
+```
+
+### Improved performance via UPSERT and a unique index
+
+
+Unique indexes can be used to ensure that no field or combination of fields is ever present more than once. For example, a game might have a rule that duplicate names can exist, but not within the same class.
+
+```
+DEFINE INDEX unique_key ON TABLE user FIELDS name, class UNIQUE;DEFINE FIELD official_name ON TABLE user VALUE name + " the " + class;CREATE user:billy SET name = "Billy", class = "wizard", metadata = { likes: ["strawberries"] };CREATE user:billy_der_zweite SET name = "Billy", class = "wizard", metadata = { likes: ["strawberries", "fields"] };
+```
+
+As the output shows, the unique index prevents the creation of a second user with the name and class as the first.
+
+Output
+
+```
+-------- Query --------[	{		id: user:billy,		metadata: {			likes: [				'strawberries'			]		},		name: 'Billy',		official_name: 'Billy the wizard',		class: 'wizard'	}]-------- Query --------"Database index `unique_key` already contains ['Billy', 'wizard'], with record `user:billy`"
+```
+
+To change an existing record's `metadata` field to the value `{ likes: ["strawberries", "fields"] }`, an `UPDATE` with a `WHERE` can be used. This performs a scan on the `user` table to check for all records that match the `WHERE` clause.
+
+```
+UPDATE user SET	metadata = { likes: ["strawberries", "fields"] }WHERE	name = "Billy" AND	class = "wizard";
+```
+
+However, a much more efficient method is available if you only need to update one record and have a unique index that can be used instead. This optimization is available when using `UPSERT` and a unique index, because the statement will always access the index in any case to first see if the record is a duplicate.
+
+```
+-- Checks the index for ["Mandy", "wizard"], no existing-- record found so no problemUPSERT user SET name = "Mandy", class = "wizard";-- Fails because statement tries to upsert a new user:mandy-- on top of the previous randomly generated oneUPSERT user:mandy SET 	name = "Mandy",	class = "wizard",	metadata = { likes: ["strawberries" ]};
+```
+
+Output
+
+```
+-------- Query --------[	{		class: 'wizard',		id: user:kdvh401gofckvvy6nbiw,		name: 'Mandy',		official_name: 'Mandy the wizard'	}]-------- Query --------"Database index `unique_key` already contains ['Mandy', 'wizard'], with record `user:kdvh401gofckvvy6nbiw`"
+```
+
+Since an `UPSERT` statement already checks unique indexes by default, it uses this to recognize that the user with `name = "Billy"` and `the = "Wizard"` corresponds to the record `user:j2ecdb2tf4ou29mr0yp5` and update it without needing to scan the entire `user` table.
+
+```
+UPSERT user SET	name = "Billy",	class = "wizard",	metadata = { likes: ["strawberries", "fields"] };
+```
+
+Output
+
+```
+-------- Query --------[	{		id: user:j2ecdb2tf4ou29mr0yp5,		metadata: {			likes: [				'strawberries'			]		},		name: 'Billy',		official_name: 'Billy the wizard',		class: 'wizard'	}]
+```
+
+To compare the performance difference between using a `WHERE` clause and a unique index yourself, here is an example that creates a crowded field of 50000 `user` records, followed by one more `user` named "Billy". An `UPDATE` using `WHERE name = "Billy" AND class = "wizard"` requires a full table scan, while an `UPSERT` using the two fields used to build the index is much faster.
+
+```
+DEFINE INDEX unique_key ON TABLE user FIELDS name, class UNIQUE;DEFINE FIELD official_name ON TABLE user VALUE name + " the " + class;-- Add 50000 users to fill up the databaseFOR $i IN <array>0..50000 { CREATE user SET name = <string>$i, class = <string>$i; };-- Create Billy, one of 50,001 recordsCREATE user SET name = "Billy", class = "wizard";-- Updating Billy requires a table scanUPDATE user SET	interests += "music"WHERE	name = "Billy" AND	class = "wizard";-- But UPSERT uses 'name' and 'class' to check the index anyway,-- and thus can use it to access the record without a scanUPSERT user SET	name = "Billy",	class = "wizard",	interests += "travel";
+```
+
+## Using the ONLY clause
+
+
+The `ONLY` clause can be used to return a single record instead of an array of records.
+
+```
+-- UPSERT just a single record-- Using the ONLY keyword, just an object for the record in question will be returned.-- This, instead of an array with a single object.UPSERT ONLY person:tobie SET 	name = 'Tobie', 	company = 'SurrealDB', 	skills = ['Rust', 'Go', 'JavaScript'];
+```
+
+## Type inference when using UPSERT
+
+
+The `+=` operator in the following query is enough for SurrealDB to infer that the `interests` field must be an `array<string>`.
+
+```
+-- UPSERT a document and remove a tag from an arrayUPSERT person:tobie SET interests += 'Java';
+```
+
+Type inference will also work with a numeric value such as the `click_count` field below, in which case it will infer the field to be of type `int` with a default value of 0.
+
+```
+-- UPSERT a document and increment a numeric valueUPSERT webpage:home SET click_count += 1;
+```
+
+Creating a record by default makes the `UPSERT` statement an ideal way to manage an incrementing field.
+
+```
+UPSERT event_for:[time::now().format("%Y-%m-%d")] SET    number += 1;
+```
+
+Possible output
+
+```
+[	{		id: event_for:[			'2024-09-18'		],		number: 1	}]
+```
+
+Doing the same with an `UPDATE` statement would require much more manual work.
+
+```
+IF (SELECT * FROM event_for:[time::now().format("%Y-%m-%d")]).is_empty() {    CREATE event_for:[time::now().format("%Y-%m-%d")] SET number = 1;} ELSE {    UPDATE event_for:[time::now().format("%Y-%m-%d")] SET number += 1;};
+```
+
+## CONTENT clause
+
+
+Instead of specifying record data using the `SET` clause, it is also possible to use the `CONTENT` keyword to specify the record data using a SurrealQL object.
+
+```
+-- UPSERT all records with the same contentUPSERT person CONTENT {	name: 'Tobie',	company: 'SurrealDB',	skills: ['Rust', 'Go', 'JavaScript'],};-- UPSERT a specific record with some contentUPSERT person:tobie CONTENT {	name: 'Tobie',	company: 'SurrealDB',	skills: ['Rust', 'Go', 'JavaScript'],};
+```
+
+Since version `2.1.0`, a statement with a `CONTENT` clause will bypass `READONLY` fields instead of generating an error.
+
+```
+DEFINE FIELD created ON person TYPE datetime DEFAULT d'2024-01-01T00:00:00Z' READONLY;UPSERT person:gladys SET age = 90;-- Does not try to modify `created` field, no errorUPSERT person:gladys CONTENT { age: 70 };
+```
+Output before 2.1.0Output after 2.1.0
+```
+-------- Query --------[	{		age: 90,		created: d'2024-01-01T00:00:00Z',		id: person:gladys	}]-------- Query --------'Found changed value for field `created`, with record `person:gladys`, but field is readonly'
+```
+
+```
+-------- Query --------[	{		age: 90,		created: d'2024-01-01T00:00:00Z',		id: person:gladys	}]-------- Query --------[	{		age: 70,		created: d'2024-01-01T00:00:00Z',		id: person:gladys	}]
+```
+
+## REPLACE clause
+
+
+Originally an alias for `CONTENT`, the `REPLACE` clause maintains the previous behaviour regarding `READONLY` fields. If the content following `REPLACE` does not match a record's `READONLY` fields, an error will be generated.
+
+```
+DEFINE FIELD created ON person TYPE datetime DEFAULT d'2024-01-01T00:00:00Z' READONLY;UPSERT person:gladys SET age = 90;-- Attempts to change `created` field, errorUPSERT person:gladys REPLACE { age: 70 };-- `created` equals current value, query worksUPSERT person:gladys REPLACE { age: 70, created: d'2024-01-01T00:00:00Z' };
+```
+
+Output
+
+```
+-------- Query --------[	{		age: 90,		created: d'2024-01-01T00:00:00Z',		id: person:gladys	}]-------- Query --------'Found changed value for field `created`, with record `person:gladys`, but field is readonly'-------- Query --------[	{		age: 70,		created: d'2024-01-01T00:00:00Z',		id: person:gladys	}]
+```
+
+## MERGE clause
+
+
+Instead of specifying the full record data using the `SET` clause or the `CONTENT` keyword, it is also possible to merge-UPSERT only specific fields by using the `MERGE` keyword and specifying only the fields which are to be upserted.
+
+```
+-- Inserts a new record with a single field and random IDUPSERT person MERGE {	settings: {		marketing: true,	},};-- Updates certain fields on a specific recordUPSERT person:tobie MERGE {	settings: {		marketing: true,	},};
+```
+
+## PATCH clause
+
+
+You can also specify changes to be applied to your query response, using the `PATCH` clause which works similar to the JSON Patch specification
+
+```
+-- Patch the JSON responseUPSERT person:tobie PATCH [	{		"op": "add",		"path": "Engineering",		"value": "true"	}];
+```
+
+## Alter the RETURN value
+
+
+By default, the UPSERT statement returns the record value once the changes have been made. To change the return value of each record, specify a `RETURN` clause, specifying either `NONE`, `BEFORE`, `AFTER`, `DIFF`, or a comma-separated list of specific fields to return.
+
+```
+-- Don't return any resultUPSERT person:tobie SET interests += 'reading' RETURN NONE;-- Return the changeset diffUPSERT person:tobie SET interests += 'reading' RETURN DIFF;-- Return the record before changes were appliedUPSERT person:tobie SET interests += 'reading' RETURN BEFORE;-- Return the record after changes were applied (the default)UPSERT person:tobie SET interests += 'reading' RETURN AFTER;-- Return a specific field only from the upserted recordsUPSERT person:tobie SET interests = ['skiing', 'music'] RETURN name, interests;
+```
+
+When processing a large result set with many interconnected records, it is possible to use the `TIMEOUT` keywords to specify a timeout duration for the statement. If the statement continues beyond this duration, then the transaction will fail, no records will be upserted in the database, and the statement will return an error.
+
+```
+UPSERT person:3 SET important = true WHERE ->knows->person->(knows WHERE influencer = true) TIMEOUT 5s;
+```
+
+## The EXPLAIN clause
+
+
+When `EXPLAIN` is used:
+
+1. The UPSERT statement returns an explanation, essentially revealing the execution plan to provide transparency and understanding of the query performance.
+2. The records are not updated.
+
+`EXPLAIN` can be followed by `FULL` to see the number of executed rows.

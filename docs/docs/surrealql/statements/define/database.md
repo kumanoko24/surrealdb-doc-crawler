@@ -1,0 +1,83 @@
+---
+title: DEFINE DATABASE statement
+url: https://surrealdb.com/docs/surrealql/statements/define/database
+crawled_at: 2026-03-25 18:42:33
+---
+
+# DEFINE DATABASE statement
+
+
+The `DEFINE DATABASE` statement allows you to instantiate a named database, enabling you to specify security and configuration options.
+
+## Requirements
+
+
+- You must be authenticated as a root owner or editor, or namespace owner or editor before you can use the DEFINE DATABASE statement.
+- You must select your namespace before you can use the DEFINE DATABASE statement.
+
+## Statement syntax
+
+SurrealQL SyntaxRailroad Diagram
+SurrealQL Syntax
+
+```
+DEFINE DATABASE [ OVERWRITE | IF NOT EXISTS ] @name [ STRICT ] [ COMMENT @string ]
+```
+DEFINEDATABASEOVERWRITEIFNOTEXISTS@nameSTRICTCOMMENT@string
+## Example usage
+
+
+Below shows how you can create a database using the DEFINE DATABASE statement.
+
+```
+-- Specify the namespace for the databaseUSE NS abcum;-- Define databaseDEFINE DATABASE app_vitalsense;
+```
+
+## Using IF NOT EXISTS clause
+
+
+The `IF NOT EXISTS` clause can be used to define a database only if it does not already exist. You should use the `IF NOT EXISTS` clause when defining a database in SurrealDB if you want to ensure that the database is only created if it does not already exist. If the database already exists, the `DEFINE DATABASE` statement will return an error.
+
+It's particularly useful when you want to safely attempt to define a database without manually checking its existence first.
+
+On the other hand, you should not use the `IF NOT EXISTS` clause when you want to ensure that the database definition is updated regardless of whether it already exists. In such cases, you might prefer using the `OVERWRITE` clause, which allows you to define a database and overwrite an existing one if it already exists, ensuring that the latest version of the definition is always in use.
+
+```
+-- Create a database if it does not already existDEFINE DATABASE IF NOT EXISTS app_vitalsense;
+```
+
+## Using OVERWRITE clause
+
+
+The `OVERWRITE` clause can be used to define a database and overwrite an existing one if it already exists. You should use the `OVERWRITE` clause when you want to modify an existing database definition. If the database already exists, the `DEFINE DATABASE` statement will overwrite the existing definition with the new one.
+
+```
+-- Create a database and overwrite if it already existsDEFINE DATABASE OVERWRITE app_vitalsense;
+```
+
+## Defining a STRICT database
+
+
+A strict database is one that does not allow a resource to be used unless it has already been defined. The default behaviour in SurrealDB works otherwise, by allowing statements like CREATE, INSERT and UPSERT to work.
+
+```
+CREATE some_new_table;INFO FOR DATABASE.tables;
+```
+
+The output of the INFO statement shows that a table called `some_new_table` has been created with a few default clauses.
+
+```
+{	some_new_table: 'DEFINE TABLE some_new_table TYPE ANY SCHEMALESS PERMISSIONS NONE'}
+```
+
+Such an operation within a strict database is simply not allowed.
+
+```
+DEFINE DATABASE new_db STRICT;USE DATABASE new_db;CREATE some_new_table;
+```
+
+Output
+
+```
+"The table 'some_new_table' does not exist"
+```

@@ -1,0 +1,232 @@
+---
+title: API functions
+url: https://surrealdb.com/docs/surrealql/functions/database/api
+crawled_at: 2026-03-25 18:42:55
+---
+
+# API functions
+
+
+| Function | Description |
+| --- | --- |
+| api::invoke() | Invokes an /api endpoint and returns the result |
+| api::timeout() | Middleware to set a timeout for requests made to a defined API endpoint |
+| api::req::body() | Middleware to set the body type for an API endpoint request |
+| api::res::body() | Middleware to set the body type for an API endpoint response |
+| api::res::header() | Middleware to add a single header to an API endpoint response |
+| api::res::headers() | Middleware to adds multiple headers to an API endpoint response |
+| api::res::status() | Middleware to set the status for an API endpoint response |
+| Custom middleware | Middleware to set the status for an API endpoint response |
+
+
+## Overview
+
+
+API functions are passed in as middleware inside a DEFINE API or DEFINE CONFIG API statement and called a request is received.
+
+The only API function intended for use in regular queries is the api::invoke function, which is used to test API endpoints instead of as middleware.
+
+The signatures for all other functions are presented here are from the point of view of the user. For example, the `api::timeout` function takes a single duration.
+
+```
+api::timeout(duration)
+```
+
+In practice, two extra arguments are passed in to these functions unseen to the user, making this the true signature.
+
+```
+api::timeout($req: object, $next: function, $duration: duration)
+```
+
+For more details on how this works, see this section of the page.
+
+## api::invoke
+
+
+API DEFINITION
+
+```
+api::invoke($path: string, $options: option<object>) -> object
+```
+
+The `api::invoke` function invokes a custom `/api` endpoint defined using a `DEFINE API` statement. While a `DEFINE API` statement creates an API endpoint at the `/api/:namespace/:database/:endpoint` path, this function is called when a namespace and database have already been decided, necessitating only the final path (such as `"/test"`) for it to be invoked.
+
+The following two examples of the function assume that this `DEFINE API` statement has been used to set up the `"/test"` endpoint.
+
+Define API endpoint
+
+```
+DEFINE API "/test"    FOR get         MIDDLEWARE            api::timeout(1s)        THEN {            {                status: 404,                body: $request.body,                headers: { the_time_is_now: <string>time::now() }            };        };
+```
+
+Calling the `api::invoke` function with just a path:
+
+Use defined endpoint
+
+```
+api::invoke("/test");
+```
+
+Output
+
+```
+{	body: NONE,    context: {},	headers: {		the_time_is_now: '2025-12-25T11:49:30.732Z'	},	status: 404}
+```
+
+Calling the `api::invoke` function with a path and an object containing a body and headers:
+
+```
+api::invoke("/test", {    body: <bytes> '{ "a": true }',    headers: {        "Content-Type": "application/json",        Accept: "application/cbor",    }});
+```
+
+Output
+
+```
+{	body: b"7B202261223A2074727565207D",    context: {},	headers: {		the_time_is_now: '2025-12-25T11:51:18.910Z'	},	status: 404}
+```
+
+For more information and examples, see the page for the `DEFINE API` statement.
+
+## api::timeout
+
+
+The `api::timeout` function sets the maximum timeout for a request.
+
+API DEFINITION
+
+```
+api::timeout($timeout: duration)
+```
+
+The following example will always return an error because the
+
+Example
+
+```
+DEFINE API "/exceeds_timeout"    FOR get         MIDDLEWARE            api::timeout(1ns)        THEN {            sleep 1ns;            {}        };
+```
+
+## api::req::body
+
+
+API DEFINITION
+
+```
+api::req::body($path: string, $strategy: option<string>)
+```
+
+This function sets the strategy (the input format) for the endpoint. It can take one of the following strings:
+
+- 'auto'
+- 'json'
+- 'cbor'
+- 'flatbuffers'
+- 'plain'
+- 'bytes'
+- 'native'
+
+The following example shows an endpoint for each of these strategies, followed by an invocation for each that matches it.
+
+```
+DEFINE API "/body/json" FOR post    MIDDLEWARE api::req::body("json")    THEN {{ body: { parsed: $request.body } }};DEFINE API "/body/cbor" FOR post    MIDDLEWARE api::req::body("cbor")    THEN {{ body: { parsed: $request.body } }};DEFINE API "/body/plain" FOR post    MIDDLEWARE api::req::body("plain")    THEN {{ body: { parsed: $request.body } }};DEFINE API "/body/bytes" FOR post    MIDDLEWARE api::req::body("bytes")    THEN {{ body: { parsed: $request.body } }};DEFINE API "/body/native" FOR post    MIDDLEWARE api::req::body("native")    THEN {{ body: { parsed: $request.body } }};DEFINE API "/body/auto" FOR post    MIDDLEWARE api::req::body("auto")    THEN {{ body: { parsed: $request.body } }};api::invoke("/body/json", {    method: "post",    headers: { "content-type": "application/json" },    body: <bytes>'{"name":"billy","billys_number":753}'});api::invoke("/body/cbor", {    method: "post",    headers: { "content-type": "application/cbor" },    body: encoding::cbor::encode('CBOR!!')});api::invoke("/body/plain", {    method: "post",    headers: { "content-type": "text/plain" },    body: <bytes>'plain text content'});api::invoke("/body/bytes", {    method: "post",    headers: { "content-type": "application/octet-stream" },    body: <bytes>'raw bytes'});api::invoke("/body/native", {    method: "post",    headers: { "content-type": "application/vnd.surrealdb.native" },    body: { native: "format" }});api::invoke("/body/auto", {    method: "post",    headers: { "content-type": "application/json" },    body: <bytes>'{"auto":"json"}'});api::invoke("/body/auto", {    method: "post",    body: <bytes>'some data'});
+```
+
+## api::res::body
+
+
+API DEFINITION
+
+```
+api::res::body($path: string, $strategy: option<string>)
+```
+
+```
+DEFINE API "/serialize_json"    FOR get        MIDDLEWARE            api::res::body("json")        THEN {            {                status: 200,                body: {                    message: "Hello"                }            };        };api::invoke("/serialize_json").{    body: <string>body, -- Cast response bytes into string    headers,    status};
+```
+
+Response
+
+```
+{     body: '{"message":"Hello"}',     headers: { "access-control-allow-origin": '*', "content-type": 'application/json' },     status: 200 }
+```
+
+## api::res::header
+
+
+The `api::res::header` function sets a single header for a response.
+
+API DEFINITION
+
+```
+api::res::header($header_name: string, $val: value)
+```
+
+Example
+
+```
+DEFINE API "/test"  FOR get     MIDDLEWARE      api::res::header("country-origin", "CA")    THEN {      {        status: 200,        headers: {          "requested-at": <string>time::now()        },        body: SELECT * FROM person      };    };
+```
+
+## api::res::headers
+
+
+The `api::res::headers` function takes an object to set the headers for a response.
+
+API DEFINITION
+
+```
+api::res::headers($headers: object)
+```
+
+Example
+
+```
+DEFINE API "/test"    FOR get         MIDDLEWARE            api::res::headers({                "country-origin": "CA",                "language": "FR"            })        THEN {            {                status: 200,                headers: {                    "requested-at": <string>time::now()                },                body: SELECT * FROM person            };        };
+```
+
+## api::res::status
+
+
+API DEFINITION
+
+```
+api::res::status($http_code: int)
+```
+
+The `api::res::status` function adds a status to the response of an API endpoint.
+
+```
+DEFINE API "/always_ok"    FOR get        MIDDLEWARE            api::res::status(200)        THEN {            {                status: 404,                body: {                    some: "data"                }            };        };api::invoke("/always_ok");
+```
+
+Response
+
+```
+{     body: {some: 'data'},     context: {},     headers: {},     status: 200 }
+```
+
+Setting an invalid HTTP status will result in an error.
+
+```
+DEFINE API "/status/invalid-low"    FOR get        MIDDLEWARE            api::res::status(99)        THEN {            RETURN {                status: 200,                body: {}            };        };api::invoke("/status/invalid-low");
+```
+
+Response
+
+```
+'Invalid HTTP status code: 99. Must be between 100 and 599'
+```
+
+## Custom middleware
+
+
+A `DEFINE FUNCTION` statement can be used to define a function for use as custom middleware. For more details on defining a custom function in this manner, see the DEFINE API page.
+
+## Structure of API functions
+
+
+An API function can technically be called in the same way as any other function, as long as the first argument is an object and the second argument is a closure that returns an object. After a `MIDDLEWARE` clause these arguments will be automatically filled, but dummy arguments can be passed in for practice or testing.
+
+```
+api::res::body({}, || {}, "json").{    body: <string>body,    context,    headers,    status};-- Returns:{	body: 'null',	context: {},	headers: {		"content-type": 'application/json'	},	status: 200};api::res::body({}, || {}, "jsonnn").{    body: <string>body,    context,    headers,    status};-- Returns:'Failed to decode BodyStrategy, no variants matched'
+```

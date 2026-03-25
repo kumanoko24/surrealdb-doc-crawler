@@ -1,0 +1,79 @@
+---
+title: RETURN statement
+url: https://surrealdb.com/docs/surrealql/statements/return
+crawled_at: 2026-03-25 18:41:29
+---
+
+# RETURN statement
+
+
+The `RETURN` statement can be used to return an implicit value or the result of a query, and to set the return value for a transaction, block, or function.
+
+### Statement syntax
+
+SurrealQL SyntaxRailroad Diagram
+SurrealQL Syntax
+
+```
+RETURN @value
+```
+RETURN@value
+## Example usage
+
+
+### Basic usage
+
+
+`RETURN` is always followed by a value. As every data type in SurrealDB is a type of value, the `RETURN` statement can return anything from simple values to the result of queries.
+
+```
+-- Return a simple valueRETURN 123;RETURN "I am a string!";RETURN {	prop: "value"};-- Return the result of a queryRETURN SELECT * FROM person;RETURN (CREATE person).id;
+```
+
+Values on their own are treated as if they have an implicit `RETURN` in front. As such, the following queries return the same output as in the previous example.
+
+```
+123;"I am a string!";{	prop: "value"};SELECT * FROM person;(CREATE person).id;
+```
+
+## Transaction return value
+
+
+`RETURN` statements can set the result of any transaction. This includes transactions, blocks and functions.
+
+Transaction return value
+
+```
+BEGIN TRANSACTION;-- We are executing quite a few queries hereLET $firstname = "John";LET $lastname = "Doe";LET $person = CREATE ONLY person CONTENT {	firstname: $firstname,	lastname: $lastname,};-- But because we end with a RETURN query, only the person's ID will be returned-- The results of the other queries will be omitted.RETURN $person.id;-- One issue with this approach is that query errors are generic.-- To get around that, use a block, which is executed as a transaction by itself.COMMIT TRANSACTION;
+```
+
+## Return breaks execution
+
+
+Unlike `RETURN` in SurrealDB `1.x`, `RETURN` now breaks execution of statements, functions and transactions.
+
+Function return value
+
+```
+DEFINE FUNCTION fn::person::create($firstname: string, $lastname: string) {	LET $person = CREATE person CONTENT {		firstname: $firstname,		lastname: $lastname,	};	-- The RETURN statement will set the return value of the custom function, and further queries will not be executed.	RETURN $person.id;    -- This query will never be executed    CREATE person SET firstname = "Stephen", lastname = "Strange";};fn::person::create("Thanos", "Johnson");SELECT * FROM person;
+```
+
+Functions
+
+```
+DEFINE FUNCTION fn::round::up($num: number) {    IF $num % 2 == 0 {        RETURN $num; -- Breaks execution for the function    };    -- This is only executed if the RETURN inside the IF statement did not break execution    RETURN $num + 1;};
+```
+
+Transactions
+
+```
+BEGIN;RETURN 1; -- Is executedCREATE a; -- Is not executedRETURN 2; -- Is not executedCOMMIT;
+```
+
+Lastly, if not executed inside a transaction or function, `RETURN` will break execution until the most top-level statement it is executed in. RETURN will **not** prevent top level statements from being executed, nor will it adjust their output.
+
+Statements
+
+```
+LET $id = 123;LET $id = {    IF $id {        RETURN type::record('table', $id);    };    RETURN table:rand();};-- This still executes. The `RETURN` statement only broke until the block in the variable assignment.$id;
+```

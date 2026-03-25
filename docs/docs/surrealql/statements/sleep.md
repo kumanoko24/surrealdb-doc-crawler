@@ -1,0 +1,54 @@
+---
+title: SLEEP statement
+url: https://surrealdb.com/docs/surrealql/statements/sleep
+crawled_at: 2026-03-25 18:41:33
+---
+
+# SLEEP statement
+
+
+The `SLEEP` statement is used to introduce a delay or pause in the execution of a query or a batch of queries for a specific amount of time.
+
+### Statement syntax
+
+SurrealQL SyntaxRailroad Diagram
+SurrealQL Syntax
+
+```
+SLEEP @duration;
+```
+SLEEP@duration;
+## Example usage
+
+
+The following query shows example usage of this statement.
+
+```
+-- Sleep one secondSLEEP 1s;-- Sleep 100 millisecondsSLEEP 100ms;
+```
+
+For more dynamic usage of sleep, see SurrealDB's sleep function.
+
+## SLEEP during parallel operations
+
+
+A `SLEEP` statement does not interfere with operations that are underway in the background, such as a DEFINE INDEX statement using the `CONCURRENTLY` clause.
+
+```
+CREATE |user:50000| SET name = id.id() RETURN NONE;DEFINE INDEX unique_name ON TABLE user FIELDS name UNIQUE CONCURRENTLY;INFO FOR INDEX unique_name ON TABLE user;SLEEP 50ms;INFO FOR INDEX unique_name ON TABLE user;SLEEP 50ms;INFO FOR INDEX unique_name ON TABLE user;SLEEP 50ms;INFO FOR INDEX unique_name ON TABLE user;
+```
+
+Possible output
+
+```
+-------- Query 1 --------{	building: {		count: 0,		status: 'initial'	}}-------- Query 2 --------{	building: {		count: 17250,		status: 'initial'	}}-------- Query 3 --------{	building: {		count: 33542,		status: 'initial'	}}-------- Query 4 --------{	building: {		status: 'built'	}}
+```
+
+## Use cases
+
+
+`SLEEP` can be useful in a small number of situations, such as:
+
+- Testing and debugging: can be used to understand how concurrent transactions interact, test how systems handle timeouts and delays, simulate behaviour in more distant regions with longer latency
+- Throttling: can be used to throttle the execution of operations to prevent the database from being overwhelmed by too many requests at once
+- Security measures: can be used to slow down the response rate of login attempts to mitigate the risk of brute force attacks

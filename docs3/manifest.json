@@ -1,0 +1,695 @@
+{
+  "pages": {
+    "/docs/surrealql": {
+      "title": "SurrealQL",
+      "file": "docs3/docs/surrealql.md",
+      "chars": 2387
+    },
+    "/docs/surrealql/demo": {
+      "title": "Demo data",
+      "file": "docs3/docs/surrealql/demo.md",
+      "chars": 3572
+    },
+    "/docs/surrealql/operators": {
+      "title": "Operators",
+      "file": "docs3/docs/surrealql/operators.md",
+      "chars": 17632
+    },
+    "/docs/surrealql/datamodel": {
+      "title": "Data types",
+      "file": "docs3/docs/surrealql/datamodel.md",
+      "chars": 3432
+    },
+    "/docs/surrealql/datamodel/arrays": {
+      "title": "Arrays",
+      "file": "docs3/docs/surrealql/datamodel/arrays.md",
+      "chars": 5838
+    },
+    "/docs/surrealql/datamodel/booleans": {
+      "title": "Booleans",
+      "file": "docs3/docs/surrealql/datamodel/booleans.md",
+      "chars": 1909
+    },
+    "/docs/surrealql/datamodel/bytes": {
+      "title": "Bytes",
+      "file": "docs3/docs/surrealql/datamodel/bytes.md",
+      "chars": 1132
+    },
+    "/docs/surrealql/datamodel/closures": {
+      "title": "Anonymous functions (closures)",
+      "file": "docs3/docs/surrealql/datamodel/closures.md",
+      "chars": 4593
+    },
+    "/docs/surrealql/datamodel/datetimes": {
+      "title": "Datetimes",
+      "file": "docs3/docs/surrealql/datamodel/datetimes.md",
+      "chars": 3820
+    },
+    "/docs/surrealql/datamodel/durations": {
+      "title": "Durations",
+      "file": "docs3/docs/surrealql/datamodel/durations.md",
+      "chars": 1608
+    },
+    "/docs/surrealql/datamodel/files": {
+      "title": "Files",
+      "file": "docs3/docs/surrealql/datamodel/files.md",
+      "chars": 2644
+    },
+    "/docs/surrealql/datamodel/futures": {
+      "title": "Futures",
+      "file": "docs3/docs/surrealql/datamodel/futures.md",
+      "chars": 3946
+    },
+    "/docs/surrealql/datamodel/geometries": {
+      "title": "Geometries",
+      "file": "docs3/docs/surrealql/datamodel/geometries.md",
+      "chars": 9014
+    },
+    "/docs/surrealql/datamodel/none-and-null": {
+      "title": "None and null",
+      "file": "docs3/docs/surrealql/datamodel/none-and-null.md",
+      "chars": 2657
+    },
+    "/docs/surrealql/datamodel/numbers": {
+      "title": "Numbers",
+      "file": "docs3/docs/surrealql/datamodel/numbers.md",
+      "chars": 4592
+    },
+    "/docs/surrealql/datamodel/objects": {
+      "title": "Objects",
+      "file": "docs3/docs/surrealql/datamodel/objects.md",
+      "chars": 3466
+    },
+    "/docs/surrealql/datamodel/ranges": {
+      "title": "Ranges",
+      "file": "docs3/docs/surrealql/datamodel/ranges.md",
+      "chars": 4132
+    },
+    "/docs/surrealql/datamodel/ids": {
+      "title": "Record IDs",
+      "file": "docs3/docs/surrealql/datamodel/ids.md",
+      "chars": 22617
+    },
+    "/docs/surrealql/datamodel/regex": {
+      "title": "Regex",
+      "file": "docs3/docs/surrealql/datamodel/regex.md",
+      "chars": 670
+    },
+    "/docs/surrealql/datamodel/sets": {
+      "title": "Sets",
+      "file": "docs3/docs/surrealql/datamodel/sets.md",
+      "chars": 2895
+    },
+    "/docs/surrealql/datamodel/strings": {
+      "title": "Strings",
+      "file": "docs3/docs/surrealql/datamodel/strings.md",
+      "chars": 5535
+    },
+    "/docs/surrealql/datamodel/uuid": {
+      "title": "UUIDs",
+      "file": "docs3/docs/surrealql/datamodel/uuid.md",
+      "chars": 450
+    },
+    "/docs/surrealql/datamodel/values": {
+      "title": "Values",
+      "file": "docs3/docs/surrealql/datamodel/values.md",
+      "chars": 3616
+    },
+    "/docs/surrealql/datamodel/casting": {
+      "title": "Casting",
+      "file": "docs3/docs/surrealql/datamodel/casting.md",
+      "chars": 9608
+    },
+    "/docs/surrealql/datamodel/formatters": {
+      "title": "Formatters",
+      "file": "docs3/docs/surrealql/datamodel/formatters.md",
+      "chars": 4683
+    },
+    "/docs/surrealql/datamodel/literals": {
+      "title": "Literals",
+      "file": "docs3/docs/surrealql/datamodel/literals.md",
+      "chars": 4026
+    },
+    "/docs/surrealql/datamodel/idioms": {
+      "title": "Idioms",
+      "file": "docs3/docs/surrealql/datamodel/idioms.md",
+      "chars": 41147
+    },
+    "/docs/surrealql/datamodel/records": {
+      "title": "Record links",
+      "file": "docs3/docs/surrealql/datamodel/records.md",
+      "chars": 2957
+    },
+    "/docs/surrealql/datamodel/references": {
+      "title": "Record references",
+      "file": "docs3/docs/surrealql/datamodel/references.md",
+      "chars": 11889
+    },
+    "/docs/surrealql/statements": {
+      "title": "Statements",
+      "file": "docs3/docs/surrealql/statements.md",
+      "chars": 5795
+    },
+    "/docs/surrealql/statements/access": {
+      "title": "ACCESS statement",
+      "file": "docs3/docs/surrealql/statements/access.md",
+      "chars": 17283
+    },
+    "/docs/surrealql/statements/alter": {
+      "title": "ALTER statement",
+      "file": "docs3/docs/surrealql/statements/alter.md",
+      "chars": 1971
+    },
+    "/docs/surrealql/statements/alter/database": {
+      "title": "ALTER DATABASE statement",
+      "file": "docs3/docs/surrealql/statements/alter/database.md",
+      "chars": 1097
+    },
+    "/docs/surrealql/statements/alter/field": {
+      "title": "ALTER FIELD statement",
+      "file": "docs3/docs/surrealql/statements/alter/field.md",
+      "chars": 1628
+    },
+    "/docs/surrealql/statements/alter/indexes": {
+      "title": "ALTER INDEX statement",
+      "file": "docs3/docs/surrealql/statements/alter/indexes.md",
+      "chars": 1118
+    },
+    "/docs/surrealql/statements/alter/namespace": {
+      "title": "ALTER NAMESPACE statement",
+      "file": "docs3/docs/surrealql/statements/alter/namespace.md",
+      "chars": 1131
+    },
+    "/docs/surrealql/statements/alter/sequence": {
+      "title": "ALTER SEQUENCE statement",
+      "file": "docs3/docs/surrealql/statements/alter/sequence.md",
+      "chars": 963
+    },
+    "/docs/surrealql/statements/alter/system": {
+      "title": "ALTER SYSTEM statement",
+      "file": "docs3/docs/surrealql/statements/alter/system.md",
+      "chars": 1772
+    },
+    "/docs/surrealql/statements/alter/table": {
+      "title": "ALTER TABLE statement",
+      "file": "docs3/docs/surrealql/statements/alter/table.md",
+      "chars": 1302
+    },
+    "/docs/surrealql/statements/begin": {
+      "title": "BEGIN statement",
+      "file": "docs3/docs/surrealql/statements/begin.md",
+      "chars": 3063
+    },
+    "/docs/surrealql/statements/break": {
+      "title": "BREAK statement",
+      "file": "docs3/docs/surrealql/statements/break.md",
+      "chars": 1456
+    },
+    "/docs/surrealql/statements/cancel": {
+      "title": "CANCEL statement",
+      "file": "docs3/docs/surrealql/statements/cancel.md",
+      "chars": 1539
+    },
+    "/docs/surrealql/statements/commit": {
+      "title": "COMMIT statement",
+      "file": "docs3/docs/surrealql/statements/commit.md",
+      "chars": 1963
+    },
+    "/docs/surrealql/statements/continue": {
+      "title": "CONTINUE statement",
+      "file": "docs3/docs/surrealql/statements/continue.md",
+      "chars": 1231
+    },
+    "/docs/surrealql/statements/create": {
+      "title": "CREATE statement",
+      "file": "docs3/docs/surrealql/statements/create.md",
+      "chars": 14652
+    },
+    "/docs/surrealql/statements/define": {
+      "title": "DEFINE statement",
+      "file": "docs3/docs/surrealql/statements/define.md",
+      "chars": 3494
+    },
+    "/docs/surrealql/statements/define/access": {
+      "title": "DEFINE ACCESS statement",
+      "file": "docs3/docs/surrealql/statements/define/access.md",
+      "chars": 4772
+    },
+    "/docs/surrealql/statements/define/access/bearer": {
+      "title": "DEFINE ACCESS ... TYPE BEARER",
+      "file": "docs3/docs/surrealql/statements/define/access/bearer.md",
+      "chars": 7992
+    },
+    "/docs/surrealql/statements/define/access/jwt": {
+      "title": "DEFINE ACCESS ... TYPE JWT",
+      "file": "docs3/docs/surrealql/statements/define/access/jwt.md",
+      "chars": 17372
+    },
+    "/docs/surrealql/statements/define/access/record": {
+      "title": "DEFINE ACCESS ... TYPE RECORD",
+      "file": "docs3/docs/surrealql/statements/define/access/record.md",
+      "chars": 22562
+    },
+    "/docs/surrealql/statements/define/analyzer": {
+      "title": "DEFINE ANALYZER statement",
+      "file": "docs3/docs/surrealql/statements/define/analyzer.md",
+      "chars": 14973
+    },
+    "/docs/surrealql/statements/define/api": {
+      "title": "DEFINE API statement",
+      "file": "docs3/docs/surrealql/statements/define/api.md",
+      "chars": 7742
+    },
+    "/docs/surrealql/statements/define/bucket": {
+      "title": "DEFINE BUCKET statement",
+      "file": "docs3/docs/surrealql/statements/define/bucket.md",
+      "chars": 4590
+    },
+    "/docs/surrealql/statements/define/config": {
+      "title": "DEFINE CONFIG statement",
+      "file": "docs3/docs/surrealql/statements/define/config.md",
+      "chars": 14731
+    },
+    "/docs/surrealql/statements/define/database": {
+      "title": "DEFINE DATABASE statement",
+      "file": "docs3/docs/surrealql/statements/define/database.md",
+      "chars": 3138
+    },
+    "/docs/surrealql/statements/define/event": {
+      "title": "DEFINE EVENT statement",
+      "file": "docs3/docs/surrealql/statements/define/event.md",
+      "chars": 13614
+    },
+    "/docs/surrealql/statements/define/field": {
+      "title": "DEFINE FIELD statement",
+      "file": "docs3/docs/surrealql/statements/define/field.md",
+      "chars": 23357
+    },
+    "/docs/surrealql/statements/define/function": {
+      "title": "DEFINE FUNCTION statement",
+      "file": "docs3/docs/surrealql/statements/define/function.md",
+      "chars": 9993
+    },
+    "/docs/surrealql/statements/define/indexes": {
+      "title": "DEFINE INDEX statement",
+      "file": "docs3/docs/surrealql/statements/define/indexes.md",
+      "chars": 19431
+    },
+    "/docs/surrealql/statements/define/module": {
+      "title": "DEFINE MODULE statement",
+      "file": "docs3/docs/surrealql/statements/define/module.md",
+      "chars": 1250
+    },
+    "/docs/surrealql/statements/define/namespace": {
+      "title": "DEFINE NAMESPACE statement",
+      "file": "docs3/docs/surrealql/statements/define/namespace.md",
+      "chars": 2630
+    },
+    "/docs/surrealql/statements/define/param": {
+      "title": "DEFINE PARAM statement",
+      "file": "docs3/docs/surrealql/statements/define/param.md",
+      "chars": 2378
+    },
+    "/docs/surrealql/statements/define/scope": {
+      "title": "DEFINE SCOPE statement",
+      "file": "docs3/docs/surrealql/statements/define/scope.md",
+      "chars": 1501
+    },
+    "/docs/surrealql/statements/define/sequence": {
+      "title": "DEFINE SEQUENCE statement",
+      "file": "docs3/docs/surrealql/statements/define/sequence.md",
+      "chars": 2705
+    },
+    "/docs/surrealql/statements/define/table": {
+      "title": "DEFINE TABLE statement",
+      "file": "docs3/docs/surrealql/statements/define/table.md",
+      "chars": 18387
+    },
+    "/docs/surrealql/statements/define/token": {
+      "title": "DEFINE TOKEN statement",
+      "file": "docs3/docs/surrealql/statements/define/token.md",
+      "chars": 17046
+    },
+    "/docs/surrealql/statements/define/user": {
+      "title": "DEFINE USER statement",
+      "file": "docs3/docs/surrealql/statements/define/user.md",
+      "chars": 5401
+    },
+    "/docs/surrealql/statements/delete": {
+      "title": "DELETE statement",
+      "file": "docs3/docs/surrealql/statements/delete.md",
+      "chars": 6355
+    },
+    "/docs/surrealql/statements/explain": {
+      "title": "EXPLAIN statement",
+      "file": "docs3/docs/surrealql/statements/explain.md",
+      "chars": 4698
+    },
+    "/docs/surrealql/statements/for": {
+      "title": "FOR statement",
+      "file": "docs3/docs/surrealql/statements/for.md",
+      "chars": 1985
+    },
+    "/docs/surrealql/statements/ifelse": {
+      "title": "IF ELSE statement",
+      "file": "docs3/docs/surrealql/statements/ifelse.md",
+      "chars": 4029
+    },
+    "/docs/surrealql/statements/info": {
+      "title": "INFO statement",
+      "file": "docs3/docs/surrealql/statements/info.md",
+      "chars": 10911
+    },
+    "/docs/surrealql/statements/insert": {
+      "title": "INSERT statement",
+      "file": "docs3/docs/surrealql/statements/insert.md",
+      "chars": 7903
+    },
+    "/docs/surrealql/statements/kill": {
+      "title": "KILL statement",
+      "file": "docs3/docs/surrealql/statements/kill.md",
+      "chars": 1742
+    },
+    "/docs/surrealql/statements/let": {
+      "title": "LET Statement",
+      "file": "docs3/docs/surrealql/statements/let.md",
+      "chars": 5049
+    },
+    "/docs/surrealql/statements/live": {
+      "title": "LIVE SELECT statement",
+      "file": "docs3/docs/surrealql/statements/live.md",
+      "chars": 3758
+    },
+    "/docs/surrealql/statements/rebuild": {
+      "title": "REBUILD statement",
+      "file": "docs3/docs/surrealql/statements/rebuild.md",
+      "chars": 1447
+    },
+    "/docs/surrealql/statements/relate": {
+      "title": "RELATE statement",
+      "file": "docs3/docs/surrealql/statements/relate.md",
+      "chars": 47086
+    },
+    "/docs/surrealql/statements/remove": {
+      "title": "REMOVE statement",
+      "file": "docs3/docs/surrealql/statements/remove.md",
+      "chars": 5491
+    },
+    "/docs/surrealql/statements/return": {
+      "title": "RETURN statement",
+      "file": "docs3/docs/surrealql/statements/return.md",
+      "chars": 3219
+    },
+    "/docs/surrealql/statements/select": {
+      "title": "SELECT statement",
+      "file": "docs3/docs/surrealql/statements/select.md",
+      "chars": 28771
+    },
+    "/docs/surrealql/statements/show": {
+      "title": "SHOW statement",
+      "file": "docs3/docs/surrealql/statements/show.md",
+      "chars": 2492
+    },
+    "/docs/surrealql/statements/sleep": {
+      "title": "SLEEP statement",
+      "file": "docs3/docs/surrealql/statements/sleep.md",
+      "chars": 1990
+    },
+    "/docs/surrealql/statements/throw": {
+      "title": "THROW statement",
+      "file": "docs3/docs/surrealql/statements/throw.md",
+      "chars": 2348
+    },
+    "/docs/surrealql/statements/update": {
+      "title": "UPDATE statement",
+      "file": "docs3/docs/surrealql/statements/update.md",
+      "chars": 11070
+    },
+    "/docs/surrealql/statements/upsert": {
+      "title": "UPSERT statement",
+      "file": "docs3/docs/surrealql/statements/upsert.md",
+      "chars": 14601
+    },
+    "/docs/surrealql/statements/use": {
+      "title": "USE statement",
+      "file": "docs3/docs/surrealql/statements/use.md",
+      "chars": 2087
+    },
+    "/docs/surrealql/parameters": {
+      "title": "Parameters",
+      "file": "docs3/docs/surrealql/parameters.md",
+      "chars": 13891
+    },
+    "/docs/surrealql/clauses": {
+      "title": "Clauses",
+      "file": "docs3/docs/surrealql/clauses.md",
+      "chars": 610
+    },
+    "/docs/surrealql/clauses/explain": {
+      "title": "EXPLAIN clause",
+      "file": "docs3/docs/surrealql/clauses/explain.md",
+      "chars": 3091
+    },
+    "/docs/surrealql/clauses/fetch": {
+      "title": "FETCH clause",
+      "file": "docs3/docs/surrealql/clauses/fetch.md",
+      "chars": 2051
+    },
+    "/docs/surrealql/clauses/from": {
+      "title": "FROM clause",
+      "file": "docs3/docs/surrealql/clauses/from.md",
+      "chars": 2737
+    },
+    "/docs/surrealql/clauses/group-by": {
+      "title": "GROUP BY clause",
+      "file": "docs3/docs/surrealql/clauses/group-by.md",
+      "chars": 1778
+    },
+    "/docs/surrealql/clauses/limit": {
+      "title": "LIMIT clause",
+      "file": "docs3/docs/surrealql/clauses/limit.md",
+      "chars": 1306
+    },
+    "/docs/surrealql/clauses/omit": {
+      "title": "OMIT clause",
+      "file": "docs3/docs/surrealql/clauses/omit.md",
+      "chars": 1354
+    },
+    "/docs/surrealql/clauses/order-by": {
+      "title": "ORDER BY clause",
+      "file": "docs3/docs/surrealql/clauses/order-by.md",
+      "chars": 1584
+    },
+    "/docs/surrealql/clauses/split": {
+      "title": "SPLIT clause",
+      "file": "docs3/docs/surrealql/clauses/split.md",
+      "chars": 4122
+    },
+    "/docs/surrealql/clauses/where": {
+      "title": "WHERE clause",
+      "file": "docs3/docs/surrealql/clauses/where.md",
+      "chars": 2761
+    },
+    "/docs/surrealql/clauses/with": {
+      "title": "WITH clause",
+      "file": "docs3/docs/surrealql/clauses/with.md",
+      "chars": 2069
+    },
+    "/docs/surrealql/transactions": {
+      "title": "Transactions",
+      "file": "docs3/docs/surrealql/transactions.md",
+      "chars": 6132
+    },
+    "/docs/surrealql/functions": {
+      "title": "Functions",
+      "file": "docs3/docs/surrealql/functions.md",
+      "chars": 221
+    },
+    "/docs/surrealql/functions/database": {
+      "title": "Database Functions",
+      "file": "docs3/docs/surrealql/functions/database.md",
+      "chars": 7584
+    },
+    "/docs/surrealql/functions/database/api": {
+      "title": "API functions",
+      "file": "docs3/docs/surrealql/functions/database/api.md",
+      "chars": 9431
+    },
+    "/docs/surrealql/functions/database/array": {
+      "title": "Array functions",
+      "file": "docs3/docs/surrealql/functions/database/array.md",
+      "chars": 57083
+    },
+    "/docs/surrealql/functions/database/bytes": {
+      "title": "Bytes functions",
+      "file": "docs3/docs/surrealql/functions/database/bytes.md",
+      "chars": 642
+    },
+    "/docs/surrealql/functions/database/count": {
+      "title": "Count function",
+      "file": "docs3/docs/surrealql/functions/database/count.md",
+      "chars": 2903
+    },
+    "/docs/surrealql/functions/database/crypto": {
+      "title": "Crypto functions",
+      "file": "docs3/docs/surrealql/functions/database/crypto.md",
+      "chars": 8145
+    },
+    "/docs/surrealql/functions/database/duration": {
+      "title": "Duration functions",
+      "file": "docs3/docs/surrealql/functions/database/duration.md",
+      "chars": 9151
+    },
+    "/docs/surrealql/functions/database/encoding": {
+      "title": "Encoding functions",
+      "file": "docs3/docs/surrealql/functions/database/encoding.md",
+      "chars": 3039
+    },
+    "/docs/surrealql/functions/database/file": {
+      "title": "File functions",
+      "file": "docs3/docs/surrealql/functions/database/file.md",
+      "chars": 9504
+    },
+    "/docs/surrealql/functions/database/geo": {
+      "title": "Geo functions",
+      "file": "docs3/docs/surrealql/functions/database/geo.md",
+      "chars": 6338
+    },
+    "/docs/surrealql/functions/database/http": {
+      "title": "HTTP functions",
+      "file": "docs3/docs/surrealql/functions/database/http.md",
+      "chars": 9322
+    },
+    "/docs/surrealql/functions/database/math": {
+      "title": "Math functions",
+      "file": "docs3/docs/surrealql/functions/database/math.md",
+      "chars": 30348
+    },
+    "/docs/surrealql/functions/database/meta": {
+      "title": "Meta functions",
+      "file": "docs3/docs/surrealql/functions/database/meta.md",
+      "chars": 1239
+    },
+    "/docs/surrealql/functions/database/not": {
+      "title": "Not function",
+      "file": "docs3/docs/surrealql/functions/database/not.md",
+      "chars": 1243
+    },
+    "/docs/surrealql/functions/database/object": {
+      "title": "Object functions",
+      "file": "docs3/docs/surrealql/functions/database/object.md",
+      "chars": 5813
+    },
+    "/docs/surrealql/functions/database/parse": {
+      "title": "Parse functions",
+      "file": "docs3/docs/surrealql/functions/database/parse.md",
+      "chars": 4777
+    },
+    "/docs/surrealql/functions/database/rand": {
+      "title": "Rand functions",
+      "file": "docs3/docs/surrealql/functions/database/rand.md",
+      "chars": 9608
+    },
+    "/docs/surrealql/functions/database/record": {
+      "title": "Record functions",
+      "file": "docs3/docs/surrealql/functions/database/record.md",
+      "chars": 3115
+    },
+    "/docs/surrealql/functions/database/search": {
+      "title": "Search functions",
+      "file": "docs3/docs/surrealql/functions/database/search.md",
+      "chars": 10490
+    },
+    "/docs/surrealql/functions/database/sequence": {
+      "title": "Sequence functions",
+      "file": "docs3/docs/surrealql/functions/database/sequence.md",
+      "chars": 483
+    },
+    "/docs/surrealql/functions/database/session": {
+      "title": "Session functions",
+      "file": "docs3/docs/surrealql/functions/database/session.md",
+      "chars": 3042
+    },
+    "/docs/surrealql/functions/database/set": {
+      "title": "Set functions",
+      "file": "docs3/docs/surrealql/functions/database/set.md",
+      "chars": 13826
+    },
+    "/docs/surrealql/functions/database/sleep": {
+      "title": "Sleep function",
+      "file": "docs3/docs/surrealql/functions/database/sleep.md",
+      "chars": 2990
+    },
+    "/docs/surrealql/functions/database/string": {
+      "title": "String Functions",
+      "file": "docs3/docs/surrealql/functions/database/string.md",
+      "chars": 41239
+    },
+    "/docs/surrealql/functions/database/time": {
+      "title": "Time Functions",
+      "file": "docs3/docs/surrealql/functions/database/time.md",
+      "chars": 20750
+    },
+    "/docs/surrealql/functions/database/type": {
+      "title": "Type Functions",
+      "file": "docs3/docs/surrealql/functions/database/type.md",
+      "chars": 28979
+    },
+    "/docs/surrealql/functions/database/value": {
+      "title": "Value functions",
+      "file": "docs3/docs/surrealql/functions/database/value.md",
+      "chars": 2866
+    },
+    "/docs/surrealql/functions/database/vector": {
+      "title": "Vector functions",
+      "file": "docs3/docs/surrealql/functions/database/vector.md",
+      "chars": 12281
+    },
+    "/docs/surrealql/functions/script": {
+      "title": "Embedded scripting functions",
+      "file": "docs3/docs/surrealql/functions/script.md",
+      "chars": 648
+    },
+    "/docs/surrealql/functions/script/arguments": {
+      "title": "Arguments",
+      "file": "docs3/docs/surrealql/functions/script/arguments.md",
+      "chars": 491
+    },
+    "/docs/surrealql/functions/script/built-in-functions": {
+      "title": "Built-in functions",
+      "file": "docs3/docs/surrealql/functions/script/built-in-functions.md",
+      "chars": 3171
+    },
+    "/docs/surrealql/functions/script/context": {
+      "title": "Function context",
+      "file": "docs3/docs/surrealql/functions/script/context.md",
+      "chars": 645
+    },
+    "/docs/surrealql/functions/script/type-conversion": {
+      "title": "Type conversion",
+      "file": "docs3/docs/surrealql/functions/script/type-conversion.md",
+      "chars": 1159
+    },
+    "/docs/surrealql/functions/script/surrealql-functions": {
+      "title": "SurrealQL functions",
+      "file": "docs3/docs/surrealql/functions/script/surrealql-functions.md",
+      "chars": 455
+    },
+    "/docs/surrealql/functions/ml": {
+      "title": "Machine Learning functions",
+      "file": "docs3/docs/surrealql/functions/ml.md",
+      "chars": 219
+    },
+    "/docs/surrealql/functions/ml/functions": {
+      "title": "Machine Learning functions",
+      "file": "docs3/docs/surrealql/functions/ml/functions.md",
+      "chars": 3541
+    },
+    "/docs/surrealql/comments": {
+      "title": "Comments",
+      "file": "docs3/docs/surrealql/comments.md",
+      "chars": 493
+    }
+  },
+  "errors": []
+}

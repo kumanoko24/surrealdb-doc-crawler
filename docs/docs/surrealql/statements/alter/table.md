@@ -1,0 +1,40 @@
+---
+title: ALTER TABLE statement
+url: https://surrealdb.com/docs/surrealql/statements/alter/table
+crawled_at: 2026-03-25 18:42:18
+---
+
+# ALTER TABLE statement
+
+
+The `ALTER TABLE` statement is used to alter a defined table.
+SurrealQL SyntaxRailroad Diagram
+SurrealQL Syntax
+
+```
+ALTER TABLE [	[ IF EXISTS ] @name		[ DROP COMMENT ]        [ DROP CHANGEFEED ]        [ COMPACT ]		[ SCHEMAFULL | SCHEMALESS ]		[ PERMISSIONS [ NONE | FULL			| FOR select @expression			| FOR create @expression			| FOR update @expression			| FOR delete @expression		] ]    [ CHANGEFEED @duration ]    [ COMMENT @string ]     [ CHANGEFEED ]]
+```
+ALTER TABLEIFEXISTS@tableDROPCOMMENTCHANGEFEEDCOMPACTTYPEANYNORMALRELATIONINFROM@tableOUTTO@tableENFORCEDVALUE@valueASSERT@expressionDEFAULTALWAYS@expressionPERMISSIONSNONEFULLWHERE@conditionCOMMENT@string
+## COMPACT
+
+
+Performs storage compaction on a specific table keyspace. To compact other resources, use ALTER SYSTEM to compact the entire datastore, ALTER NAMESPACE to compact the current namespace keyspace, or ALTER DATABASE to compact the current database keyspace.
+
+The actual compaction used will depend on the datastore, such as RocksDB or SurrealKV.
+
+This clause will not work with in-memory storage which has nothing persistent to compact, producing the following error:
+
+```
+'The storage layer does not support compaction requests.'
+```
+
+A successful compaction will return `NONE`.
+
+```
+ALTER TABLE user COMPACT;-- NONE
+```
+
+## See also
+
+
+- DEFINE TABLE

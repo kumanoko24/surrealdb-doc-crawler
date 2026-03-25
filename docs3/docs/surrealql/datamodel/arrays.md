@@ -1,0 +1,287 @@
+---
+title: Arrays
+url: https://surrealdb.com/docs/surrealql/datamodel/arrays
+crawled_at: 2026-03-25 21:39:58
+---
+
+# Arrays
+
+
+An array is a collection of values contained inside `[]` (square brackets), each of which is stored at a certain index. Individual indexes and slices of indexes can be accesses using the same square bracket syntax.
+
+```
+-- Return a full array
+RETURN [1,2,3,4,5];
+-- Return the first ("zeroeth") item
+RETURN [1,2,3,4,5][0];
+-- Return indexes 0 up to and including 2 of an array
+RETURN [1,2,3,4,5][0..=2];
+
+```
+
+Output
+
+```
+-------- Query 2 (200µs) --------
+
+[
+	1,
+	2,
+	3,
+	4,
+	5
+]
+
+-------- Query 3 (99.999µs) --------
+
+1
+
+-------- Query 4 (100.001µs) --------
+
+[
+	1,
+	2,
+	3
+]
+
+```
+
+Working with arrays is one of the most important skills when working with SurrealDB, as [SELECT](/docs/surrealql/statements/select) statements return an array of values by default unless the `ONLY` keyword is used on an array that contains a single item.
+
+```
+-- Even this returns an array
+SELECT * FROM 9;
+-- Use the `ONLY` clause to return a single item
+SELECT * FROM ONLY 9;
+-- Error: array has more than one item
+SELECT * FROM ONLY [1,9];
+
+```
+
+Output
+
+```
+-------- Query 1  --------
+
+[
+	9
+]
+
+-------- Query 2 --------
+
+9
+
+-------- Query 3 --------
+
+'Expected a single result output when using the ONLY keyword'
+
+```
+
+Records in SurrealDB can store arrays of values, including arrays within arrays. Arrays can store any value stored within them, and can store different value types within the same array.
+
+```
+CREATE person SET results = [
+	{ score: 76, date: "2017-06-18T08:00:00Z", name: "Algorithmics" },
+	{ score: 83, date: "2018-03-21T08:00:00Z", name: "Concurrent Programming" },
+	{ score: 69, date: "2018-09-17T08:00:00Z", name: "Advanced Computer Science 101" },
+	{ score: 73, date: "2019-04-20T08:00:00Z", name: "Distributed Databases" },
+];
+
+```
+
+A required number of items can be specified for an array.
+
+```
+DEFINE FIELD employees ON TABLE team TYPE array<record<employee>, 5>;
+CREATE team SET employees = [
+	employee:one, 
+	employee:two, 
+	employee:three, 
+	employee:four, 
+	employee:five, 
+	employee:doesnt_belong
+];
+
+```
+
+Response
+
+```
+"Couldn't coerce value for field `employees` of `team:2pjsv6kmzs0x06ortqfl`: Expected `array<record<employee>,5>` but found a collection of length `6`"
+
+```
+
+## Mapping and filtering on arrays
+
+
+The `[]` operator after an array can also be used to filter the items inside an array. The parameter `$this` is used to refer to each individual item, while `WHERE` (or its alias `?`, a question mark) is used to set the condition for the item to pass the filter.
+
+```
+[true, false, true][WHERE $this = true];
+
+```
+
+Output
+
+```
+[true, true]
+
+```
+
+If a `WHERE` or `?` clause finds an item that by itself is not equal to `true` or `false`, it will check the item's [truthiness](/docs/surrealql/datamodel/values#values-and-truthiness) to determine whether to pass it on or not.
+
+```
+[1,2,NONE][? $this];
+
+-- [1, 2]
+
+```
+
+Filtering can be repeated if desired.
+
+```
+[
+    {
+        name: "Boston",
+        population: NONE,
+        first_mayor: "John Phillips"
+    },
+    {
+        name: "Smurfville",
+        population: 55,
+        first_mayor: "Papa Smurf"
+    },
+    {
+        name: "Harrisburg",
+        population: 50183,
+        first_mayor: NONE
+    }
+][WHERE $this.population]
+ [WHERE $this.first_mayor];
+
+```
+
+Output
+
+```
+[
+	{
+		first_mayor: 'Papa Smurf',
+		name: 'Smurfville',
+		population: 55
+	}
+]
+
+```
+
+## Filtering and mapping with array functions
+
+
+SurrealDB also includes a number of methods for arrays that make it easier to filter and map. These methods take a closure (an anonymous function) that works in a similar way to the `$this` parameter above.
+
+Here is an example of the `array::filter()` method being used in contrast to the classic `WHERE` syntax. Note that the parameter name inside the closure is named by the user, so `$val` in the example below could be `$v` or `$some_val` or anything else.
+
+```
+[1,3,5].filter(|$val| $val > 2);
+[1,3,5][WHERE $this > 2];
+
+-- [3,5]
+
+```
+
+While the [array functions](/docs/surrealql/functions/database/array) section of the documentation contains the full details of each function, the following examples provide a glimpse into how they are commonly used.
+
+The [array::map()](/docs/surrealql/functions/database/array#arraymap) function provides access to each item in an array, allowing an opearation to be performed on it before being passed on.
+
+```
+[1,2,3].map(|$item| $item + 1);
+
+-- [2,3,4]
+
+```
+
+If desired, a second parameter can be passed in that holds the index of the item.
+
+```
+[1,2,3].map(|$v, $i| "At index " + <string>$i + " we got a " + <string>$v + "!");
+
+```
+
+Output
+
+```
+[
+	'At index 0 we got a 1!',
+	'At index 1 we got a 2!',
+	'At index 2 we got a 3!'
+]
+
+```
+
+Chaining these methods one after another is a convenient way to validate and modify data in a single statement. The example below removes any items with a `NONE`, checks to see if a the location data is a valid geometric point, and then returns the remaining items as objects with a different structure.
+
+```
+[
+	NONE,
+	{
+		at: (98, 65.7),
+		name: "Some city"
+	},
+	{
+		at: (-190.7, 0),
+		name: NONE
+	},
+    {
+        name: "Other city",
+        at: (0.0, 0.1)
+    },
+	{
+        name: "Nonexistent city",
+        at: (200.0, 66.5)
+    }
+]
+    .filter(|$v| $v != NONE AND $v.name != NONE)
+    .filter(|$v| $v.at.is_valid())
+    .map(|$v, $i| {
+        item: $i,
+        name: $v.name,
+        coordinates: $v.at
+    });
+
+```
+
+Output
+
+```
+[
+	{
+		coordinates: (98, 65.7),
+		item: 0,
+		name: 'Some city'
+	},
+	{
+		coordinates: (0, 0.1),
+		item: 1,
+		name: 'Other city'
+	}
+]
+
+```
+
+## Adding arrays
+
+
+An array can be added to another array, resulting in a single array consisting of the items of the first followed by those of the second. This is identical to the `array::concat()` function.
+
+```
+[1,2] + [3,4];
+[1,2].concat([3,4]);
+
+```
+
+Output
+
+```
+[1,2,3,4]
+
+```

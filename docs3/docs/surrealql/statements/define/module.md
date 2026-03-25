@@ -1,0 +1,65 @@
+---
+title: DEFINE MODULE statement
+url: https://surrealdb.com/docs/surrealql/statements/define/module
+crawled_at: 2026-03-25 21:41:14
+---
+
+# DEFINE MODULE statement
+
+
+A `DEFINE MODULE` statement is used to define a module via which [Surrealism](/docs/surrealdb/extensions) extensions functions can be called.
+
+###### Note
+
+
+The [surrealism experimental](/docs/surrealdb/cli/module) feature must be enabled before you can use a `DEFINE MODULE` statement.
+
+## Statement syntax
+
+SurrealQL SyntaxRailroad Diagram
+SurrealQL Syntax
+
+```
+DEFINE MODULE [ OVERWRITE | IF NOT EXISTS ] @mod::@sub AS @file_name
+
+```
+
+## Example
+
+
+A module includes a module and a sub, followed by `AS` and a pointer to the `.surli` file containing the Rust code compiled to WASM through the Surrealism CLI.
+
+```
+DEFINE MODULE mod::test AS f"test:/demo.surli";
+
+```
+
+Once the module is defined, functions can be accessed through this path.
+
+Assuming these two functions in the Rust code before compilation to WASM via the Surrealism CLI:
+
+```
+#[surrealism]
+fn returns_true() -> bool { true };
+
+#[surrealism]
+fn check_num_size(num: i32) -> Result<i32, &'static str> {
+    if num >= 500 {
+        Err("Number is too big!")
+    } else {
+        Ok(num)
+    }
+}
+
+```
+
+They will then be accessible using the following paths.
+
+```
+RETURN mod::test::returns_true();
+-- true
+
+RETURN mod::test::check_num_size(100);
+-- 100
+
+```

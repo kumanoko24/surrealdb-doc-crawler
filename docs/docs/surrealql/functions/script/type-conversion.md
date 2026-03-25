@@ -1,0 +1,22 @@
+---
+title: Type conversion
+url: https://surrealdb.com/docs/surrealql/functions/script/type-conversion
+crawled_at: 2026-03-25 18:43:42
+---
+
+# Type conversion
+
+
+Any value from SurrealDB is converted into a JavaScript type automatically, and the return value from the JavaScript function is converted to a SurrealQL value. Boolean values, Integers, Floats, Strings, Arrays, Objects, and Date objects are all converted automatically to and from SurrealQL values.
+
+```
+CREATE user:test SET created_at = function() {	return new Date();};
+```
+
+In addition, a number of special classes are included within the JavaScript functions for the additional types which are not built into JavaScript. These enable the creation of duration values, record ids, and UUID values from within JavaScript.
+
+Any values of these types passed into embedded scripting functions are also represented with these special classes.
+
+```
+CREATE user:test SET	session_timeout = function() {		return new Duration('1w');	},	best_friend = function() {		return new Record('user', 'joanna');	},	identifier = function() {		return new Uuid('03412258-988f-47cd-82db-549902cdaffe');	};
+```

@@ -1,0 +1,292 @@
+---
+title: CREATE statement
+url: https://surrealdb.com/docs/surrealql/statements/create
+crawled_at: 2026-03-25 18:41:08
+---
+
+# CREATE statement
+
+
+The `CREATE` statement can be used to add a record to the database. If the record already exists, the statement will give an error.
+
+###### Note
+
+
+This statement can not be used to create graph relationships. For that, use the RELATE statement.
+
+### Statement syntax
+
+SurrealQL SyntaxRailroad Diagram
+SurrealQL Syntax
+
+```
+CREATE [ ONLY ] @targets	[ CONTENT @value	  | SET @field = @value ...	]	[ RETURN NONE | RETURN BEFORE | RETURN AFTER | RETURN DIFF | RETURN @statement_param, ... | RETURN VALUE @statement_param ]	[ TIMEOUT @duration ];
+```
+CREATEONLY@targetsCONTENT@valueSET@field = @value ...RETURNNONEBEFOREAFTERDIFF@statement_param, ...VALUE@statement_paramTIMEOUT@duration;
+## Creating a Table Record
+
+
+`CREATE` can be used with just a table name, in which case its ID will be generated randomly.
+
+```
+-- Create a new recordCREATE person;
+```
+
+Response
+
+```
+[    {        "id": "person:2vvgzt6m24s952yiy7x8"    }]
+```
+
+To specify a specific ID for a table instead, use `:` followed by a value.
+
+```
+CREATE person:one;
+```
+
+Response
+
+```
+[	{		id: person:one	}]
+```
+
+The table name and ID together form the full record ID which can be used to query the created data or by using the SELECT statement. See the record ID page to learn more about what counts as a valid record identifier.
+
+The default random ID can be generated in different ways (such as a ULID) using the built-in ID generation functions.
+
+It is also possible to specify the ID of the record you want to create using a string or any of the supported formats for record IDs.
+
+```
+-- Use the type::record() function to provide a record's table and id separatelyCREATE type::record("person", "one");
+```
+
+## Adding Record Data
+
+
+When creating a record, you can specify the record data using the `SET` clause, or the `CONTENT` clause. The `SET` clause is used to specify record data one field at a time, while the `CONTENT` clause is used to specify record data using a SurrealQL object. The `CONTENT` clause is useful when the record data is already in the form of a SurrealQL or JSON object.
+
+```
+-- Create a new record with a text idCREATE person:tobie SET    name = 'Tobie',    company = 'SurrealDB',    skills = ['Rust', 'Go', 'JavaScript'];
+```
+
+The above will create a new record with the ID `person:tobie` and the specified data.
+
+Response
+
+```
+[	{		"id": "person:tobie",		"name": "Tobie",		"company": "SurrealDB",		"skills": ["Rust", "Go", "JavaScript"]	}]
+```
+
+Specifing record data using the `CONTENT` keyword:
+
+```
+-- Create a new record with a numeric idCREATE person:100 CONTENT {	name: 'Tobie',	company: 'SurrealDB',	skills: ['Rust', 'Go', 'JavaScript'],};
+```
+
+## Options and clauses
+
+
+### Creating multiple records
+
+
+Multiple records or even multiple record types can be created by separating table names by commas.
+
+```
+-- Note: record::tb(id) returns just the table name portion of a record IDCREATE townsperson, cat, dog SET    created_at = time::now(),    name = "Just a " + record::tb(id);
+```
+
+Response
+
+```
+[    {        "created_at": "2024-03-19T03:12:05.079Z",        "id": "townsperson:p37ha2lngckp3v8tvf2j",        "name": "Just a townsperson"    },    {        "created_at": "2024-03-19T03:12:05.080Z",        "id": "cat:p1pwbjaq96nhhnuohjtc",        "name": "Just a cat"    },    {        "created_at": "2024-03-19T03:12:05.080Z",        "id": "dog:01vcxgdpuctdk354hzkp",        "name": "Just a dog"    }]
+```
+
+The `| |` syntax is another way to create multiple records in a single execution. This syntax can be used in two ways.
+
+One is by including a table name, a `:` (a colon), and then a number. This will create a quantity of records equal to the number after the table name. The records created will have random IDs.
+
+```
+-- Creates three townperson records with a random IDCREATE |townsperson:3|;
+```
+
+Response
+
+```
+[	{		id: townsperson:hzkt0piy3f72xo5dl2jf	},	{		id: townsperson:k0mujrohm8qe2txz5pnz	},	{		id: townsperson:pwumqelrsi1qt0jmihwh	}]
+```
+
+The other method is by using the `..` range syntax after the `:` instead of a single number. This will create records with specific IDs that span across the range indicated.
+
+```
+-- Note: 1..4 used to be inclusive until SurrealDB 3.0.0-- Now creates 1 up to but not including 4CREATE |townsperson:1..4|;
+```
+
+Response
+
+```
+[	{		id: townsperson:1	},	{		id: townsperson:2	},	{		id: townsperson:3	}]
+```
+
+All of these methods can be combined to create multiple records at the same time.
+
+```
+CREATE dog, |cat:2|, |townsperson:1..3| SET    created_at = time::now(),    name = "Just a " + record::tb(id);
+```
+
+Response
+
+```
+[	{		created_at: '2024-08-13T04:14:44.135Z',		id: dog:u3fzmqvg3yq9mo3o6z2s,		name: 'Just a dog'	},	{		created_at: '2024-08-13T04:14:44.137Z',		id: cat:n6x3caiiazucslfs7rpm,		name: 'Just a cat'	},	{		created_at: '2024-08-13T04:14:44.137Z',		id: cat:rnvhxgjhsbea5u58s0wu,		name: 'Just a cat'	},	{		created_at: '2024-08-13T04:14:44.137Z',		id: townsperson:1,		name: 'Just a townsperson'	},	{		created_at: '2024-08-13T04:14:44.137Z',		id: townsperson:2,		name: 'Just a townsperson'	},	{		created_at: '2024-08-13T04:14:44.137Z',		id: townsperson:3,		name: 'Just a townsperson'	}]
+```
+
+### ONLY
+
+
+When creating a single record, the `ONLY` clause can be used to return the record object on its own instead of inside an array.
+
+```
+-- Returns an array with a single record insideCREATE person:tobie SET    name = 'Tobie',    company = 'SurrealDB',    skills = ['Rust', 'Go', 'JavaScript'];-- Returns just a single recordCREATE ONLY person:tobie SET    name = 'Tobie',    company = 'SurrealDB',    skills = ['Rust', 'Go', 'JavaScript'];
+```
+
+Response
+
+```
+-------- Query --------[	{		company: 'SurrealDB',		id: person:tobie,		name: 'Tobie',		skills: [			'Rust',			'Go',			'JavaScript'		]	}]-------- Query --------{	company: 'SurrealDB',	id: person:tobieagain,	name: 'Tobie',	skills: [		'Rust',		'Go',		'JavaScript'	]}
+```
+
+### Return Values
+
+
+By default, the create statement returns the record once it has been created. To change what is returned, we can use the `RETURN` clause, specifying either `NONE`, `BEFORE`, `AFTER`, `DIFF`, or a comma-separated list of specific fields to return.
+
+`RETURN NONE` can be useful to avoid excess output:
+
+```
+-- Create 10000 records but don't show any of themCREATE |person:10000| SET age = 46, username = "john-smith" RETURN NONE;
+```
+
+`RETURN DIFF` returns the changeset diff:
+
+```
+CREATE person SET age = 46, username = "john-smith" RETURN DIFF;
+```
+
+Response
+
+```
+[	[		{			op: 'replace',			path: '/',			value: {				age: 46,				id: person:h84x4k5kh2m6cjf1vvza,				username: 'john-smith'			}		}	]]
+```
+
+`RETURN BEFORE` inside a `CREATE` statement is essentially a synonym for `RETURN NONE`, while `RETURN AFTER` is the default behaviour for create.
+
+```
+-- Will always return NONECREATE person SET age = 46, username = "john-smith" RETURN BEFORE;
+```
+
+```
+-- Return the record after creationCREATE person SET age = 46, username = "john-smith" RETURN AFTER;
+```
+
+You can also return specific fields from a created record, the value of a single field using `VALUE`, as well as ad-hoc fields to modify the output as needed.
+
+```
+CREATE person    SET age = 46,    username = "john-smith",    interests = ['skiing', 'music']RETURN    age,    interests,    age + 1 AS age_next_year;CREATE |person:5|    SET age = 20RETURN VALUE age;
+```
+
+Response
+
+```
+-------- Query --------[	{		age: 46,		age_next_year: 47,		interests: [			'skiing',			'music'		]	}]-------- Query --------[	20,	20,	20,	20,	20]
+```
+
+### Timeout
+
+
+The `TIMEOUT` clause can be used to specify the maximum time the statement should take to execute. This is useful when you want more control such as controlling compute costs or making sure queries succeed or fail within tight latency boundaries to not have a big query queue forming.
+
+The value for `TIMEOUT` is specified in seconds or milliseconds.
+
+```
+-- Query attempting to create half a million `person` recordsCREATE |person:500000| SET age = 46, username = "john-smith" TIMEOUT 500ms;
+```
+
+### VERSION
+
+
+If you are using SurrealKV as the storage engine with versioning enabled, when creating a record you can specify a version for each record. This is useful for time-travel queries. You can query a specific version of a record by using the `VERSION` clause.
+
+The `VERSION` clause is always followed by a datetime and when the specified timestamp does not exist, an empty array is returned.
+
+###### Note
+
+
+The `VERSION` clause is currently in alpha and is subject to change. We do not recommend this for production.
+
+```
+-- Create a record for user:john at 8:00AMCREATE user:john SET name = 'John' VERSION d'2024-08-19T08:00:00Z';[[{ id: user:john, name: 'John' }]]-- Return the record for user:john at 8:00AMSELECT * FROM user:john VERSION d'2024-08-19T08:00:00Z';[[{ id: user:john, name: 'John' }]]-- Create a record for user:john at 8:01AMCREATE user:john SET name = 'John-1' VERSION d'2024-08-19T08:01:00Z';[[{ id: user:john, name: 'John-1' }]]-- Return the record for user:john at 8:01AMSELECT * FROM user:john VERSION d'2024-08-19T08:01:00Z';[[{ id: user:john, name: 'John-1' }]]-- Return an empty array because the record at the datetime does not existSELECT * FROM user:john VERSION d'2024-08-19T07:00:00Z';[[]]
+```
+
+Another example of how `VERSION` works with `CREATE` is by creating records at different times and then querying for them at a specific point in time.
+
+```
+CREATE |user:10| VERSION d"2020-09-09";[[{ id: user:rtbjoqv1xe9wnxjx5aro }, { id: user:tkik878q8uoddvuucu0a }, { id: user:rcnywgogvlipv3tb8qut }, { id: user:30ynx82x52ff77dxzv1i }, { id: user:59mxi0xosi3im5ccbx8l }, { id: user:nolu7yreqs4e5m7255oa }, { id: user:u384ycj1d2esi3yrasli }, { id: user:n4xnrq98ookevhmdd7d2 }, { id: user:5j5ujfu4dokcpdk51qa8 }, { id: user:jiqmlvrgafeorr50nvn9 }]]CREATE |user:10| VERSION d"2020-09-10";[[{ id: user:ze98ow4bzdcndzc5nlqj }, { id: user:gjqu2uh3wnp1cpjg1unt }, { id: user:17bxpjl4ptbxv9k2ghmt }, { id: user:fmqqeajf52neg4c7oaoq }, { id: user:bfn45ewsg86auvekeuz0 }, { id: user:834yq1tyatwopb4726mj }, { id: user:veehoua4cu65ff4wc8pf }, { id: user:y3az4pizc0ddpruixw6g }, { id: user:xrn6eqrtyqgg8cgpm9zp }, { id: user:s06acf74rsnvhvim3ys5 }]]RETURN count(SELECT * FROM user VERSION d"2020-09-09"); -- returns 10[10]RETURN count(SELECT * FROM user); -- returns 21[21]
+```
+
+The `VERSION` clause can also take a dynamic value or parameter that resolves to a datetime.
+
+```
+CREATE user:john SET name = 'John' VERSION time::now();LET $now = time::now();CREATE user:john_the_second SET name = 'John' VERSION $now;DEFINE FUNCTION fn::yesterday() { time::now() - 1d };CREATE user:john_the_third SET name = 'John' VERSION fn::yesterday();
+```
+
+## Implicit statement behaviour
+
+
+While a number of definitions need to be in place for a `CREATE` statement to happen, SurrealDB will handle them automatically by default. This behaviour is best seen by starting a new database.
+
+While a connection to SurrealDB via Surrealist or the surreal sql command can include a defined namespace and database, the namespace and database names do not exist upon creation. At this point, they are only held inside the pre-defined $session parameter. This can be seen through the INFO statements, which will show no definitions at all inside a new database.
+
+```
+INFO FOR ROOT;INFO FOR NS;INFO FOR DB;RETURN $session;
+```
+
+Response
+
+```
+-------- Query --------{	accesses: {},	namespaces: {},	nodes: {},	system: {		available_parallelism: 0,		cpu_usage: 0,		load_average: [			0,			0,			0		],		memory_allocated: 0,		memory_usage: 0,		physical_cores: 0,		threads: 0	},	users: {}}-------- Query --------{	accesses: {},	analyzers: {},	apis: {},	configs: {},	functions: {},	models: {},	params: {},	tables: {},	users: {}}-------- Query --------{	analyzers: {},	functions: {},	models: {},	params: {},	scopes: {},	tables: {},	tokens: {},	users: {}}-------- Query --------{	ac: NONE,	db: 'sandbox',	exp: NONE,	id: NONE,	ip: NONE,	ns: 'sandbox',	or: NONE,	rd: NONE,	tk: NONE}
+```
+
+This is to allow the chance to define them manually, such as by including a comment.
+
+```
+DEFINE DATABASE my_database COMMENT "Some important info that I prefer to add manually";
+```
+
+However, once the first record is created or inserted, SurrealDB will access the session data to execute a number of definition statements for the namespace, database, and then add a definition for the desired table name in order to allow the operation to proceed.
+
+```
+-- Three DEFINE statements will happen to allow this operationCREATE person;INFO FOR ROOT;INFO FOR NS;INFO FOR DB;
+```
+
+Response
+
+```
+-------- Query --------{	accesses: {},	namespaces: {		sandbox: 'DEFINE NAMESPACE sandbox'	},	nodes: {},	system: {		available_parallelism: 0,		cpu_usage: 0,		load_average: [			0,			0,			0		],		memory_allocated: 0,		memory_usage: 0,		physical_cores: 0,		threads: 0	},	users: {}}-------- Query --------{	accesses: {},	databases: {		sandbox: 'DEFINE DATABASE sandbox'	},	users: {}}-------- Query 7 --------{	accesses: {},	analyzers: {},	apis: {},	configs: {},	functions: {},	models: {},	params: {},	tables: {		person: 'DEFINE TABLE person TYPE ANY SCHEMALESS PERMISSIONS NONE'	},	users: {}}
+```
+
+To disallow this behaviour, you can define a database using the `STRICT` keyword. In strict mode, any resource must first be explicitly defined before it can be used.
+
+```
+ns/db> CREATE person;[[{ id: person:epgvviec00l4pnmhtt5n }]]ns/db> DEFINE DB strict_db STRICT;[NONE]ns/db> USE DB strict_db;[NONE]ns/strict_db> CREATE person;["Thrown error: The table 'person' does not exist"]ns/strict_db> DEFINE TABLE person;[NONE]ns/strict_db> CREATE person;[[{ id: person:c76lfw6n4yb1z2dj9xaj }]]
+```
+
+## Learn more
+
+
+To learn more about SurrealDB, check out the following resources:
+
+- Getting started guide
+- Select statement
+- Update statement
+- Insert statement
+- Delete statement
+- Relate statement
